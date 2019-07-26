@@ -159,7 +159,7 @@ Yellow Star Shield Time: <input type="text" id="output-min" maxlength="2" style=
         var str = "xx \\[(.+?)\\]";
         str = str.replace("xx", "Time Warp");
         var regex = new RegExp(str, "g");
-        var regexReplace = "xx ["+txt+"]";
+        var regexReplace = "xx ["+parseInt(txt)+"]";
         regexReplace = regexReplace.replace("xx", "Time Warp")
         var info = document.getElementById('shieldCalcTW').innerHTML;
         info = info.replace(regex, regexReplace)
@@ -255,7 +255,7 @@ Yellow Star Shield Time: <input type="text" id="output-min" maxlength="2" style=
         var str = "xx \\[(.+?)\\]";
         str = str.replace("xx", displayText);
         var regex = new RegExp(str, "g");
-        var regexReplace = "xx ["+txt+"]";
+        var regexReplace = "xx ["+parseInt(txt)+"]";
         regexReplace = regexReplace.replace("xx", displayText)
         var info = document.getElementById('info').innerHTML;
         info = info.replace(regex, regexReplace)
