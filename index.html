@@ -1,6 +1,7 @@
 <!-- 
   White Star Cartographer Tool for Panda Clan
   Created by Concedo
+  Updated by Elder Things Corp
   Powered by Leaflet js
   
   Measurement accuracy may depend on performing proper calibration. 
@@ -11,7 +12,7 @@
 <html>
 <head>
 	
-	<title>White Star Cartographer for Panda Clan</title>
+	<title>White Star Cartographer</title>
 
 	<meta charset="utf-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />	
@@ -27,7 +28,7 @@
 		}
 		html, body, #map {
 			height: 100%;
-			width: 100vw;			
+			//width: 100vw;			
 		}
 		#map
 		{				
@@ -87,6 +88,27 @@
 
 <script async src="https://www.googletagmanager.com/gtag/js?id=UA-118985442-3"></script>
 <script>
+    var tplvl = 0;
+    var twlvl = 0;
+    var deltalvl = 0;
+    var impulselvl = 0;
+    var popupShown = false;
+    
+    // mods multipliers
+    var twMultiplier = [1, 1.2, 1.3, 1.4, 1.5, 1.6, 1.7, 1.8, 1.9, 2.0, 2.1];
+    var deltaMultiplier = [1, 1.06, 1.1, 1.14, 1.18, 1.22, 1.26, 1.3, 1.33, 1.36, 1.4];
+    var tpDistance = [0, 300, 330, 360, 400, 440, 485, 535, 580, 650, 700];
+    var tpTimeSeconds = 4*60*60;
+    var impulseMultiplier = 4;
+    var impulseSeconds = [0, 30*60, 37*60, 45*60, 52*60, 60*60, 67*60, 75*60, 86*60, 97*60, 112*60]
+    
+    //vessel speeds in au per second
+	var minerspeed = 43.2/3600;
+	var tsspeed = 57.6/3600;
+	var bsspeed = 60/3600;
+	var rocketspeed = 132/3600;
+    
+    
 	window.dataLayer = window.dataLayer || [];
 	function gtag(){dataLayer.push(arguments);}
 	gtag('js', new Date());
@@ -100,7 +122,28 @@
 			map.removeLayer(lines[i]);
 		}
 		map.closePopup();
+        popupShown = false;
 	};
+    var teleportLevel = function()
+    {
+        tplvl = inputLevel("Teleport");
+        updateMapPopup();
+    }
+    var timewarpLevel = function()
+    {
+        twlvl = inputLevel("Time Warp");
+        updateMapPopup();
+    };
+    var deltaLevel = function()
+    {
+        deltalvl = inputLevel("Delta Shields", "Delta");
+        updateMapPopup();
+    };
+    var impulseLevel = function()
+    {
+        impulselvl = inputLevel("Impulse");
+        updateMapPopup();
+    };
 	var yx = L.latLng;
 	var xy = function(x, y) {
 		if (L.Util.isArray(x)) {    // When doing xy([x, y]);
@@ -123,12 +166,6 @@
 	var knownmultiplier = 4.348; //value empirically determined to get 500AU across one ws sector's long diagonal
 	var knowncalibrationdistance = 500; //known calibration distance is 500AU per sector diagonal. it's short but its easy to perform
 	var calibrationMeasured = 0; //to compare ratio to our measurements
-	
-	//vessel speeds in au per second
-	var minerspeed = 43.2/3600;
-	var tsspeed = 57.6/3600;
-	var bsspeed = 60/3600;
-	var rocketspeed = 132/3600;
 			
 	var infobox = L.control();
 
@@ -144,6 +181,31 @@
 	};
 
 	infobox.addTo(map);
+    
+    function inputLevel(promptText, displayText)
+    {
+        if (displayText === undefined)
+        {
+            displayText = promptText;
+        }
+        var txt;
+        var lvl = prompt("Please enter " +promptText+ " level:", "0");
+        if (lvl == null || lvl == "") {
+            txt = "0";
+            } else {
+                txt = lvl;
+        }
+        var str = "xx \\[(.+?)\\]";
+        str = str.replace("xx", displayText);
+        var regex = new RegExp(str, "g");
+        var regexReplace = "xx ["+txt+"]";
+        regexReplace = regexReplace.replace("xx", displayText)
+        var info = document.getElementById('info').innerHTML;
+        info = info.replace(regex, regexReplace)
+        document.getElementById('info').innerHTML = info;
+        
+        return parseInt(txt);
+    }
 	
 	function showUpload()
 	{
@@ -196,6 +258,86 @@
 		var sDisplay = s > 0 ? s + (s == 1 ? " second" : " seconds") : "";
 		return hDisplay + mDisplay + sDisplay; 
 	}
+    function updateMapPopup(force)
+    {
+        if (force === undefined)
+        {
+            if (!popupShown)
+            {
+                return;
+            }
+        }
+        var minerspeedCalc = minerspeed;
+        var tsspeedCalc = tsspeed;
+        var bsspeedCalc = bsspeed;
+        var tpTimeSecondsCalc = 0;
+        var impulseSecondsCalc = 0;
+        var dist = 0;
+        var distBS = 0;
+        var distTS = 0;
+        var distMS = 0;
+        for(var i=1;i<pts.length;++i)
+        {
+            dist += distance(pts[i].lat,pts[i].lng,pts[i-1].lat,pts[i-1].lng);
+        }
+        
+        //scale according to calibration values
+        var calibrationscale = calibrationMeasured/knowncalibrationdistance;
+        
+        dist = dist * knownmultiplier / calibrationscale;	
+        distBS = dist;
+        distTS = distBS;
+        distMS = distBS;
+        
+        document.getElementById('info2').innerHTML = "Total Distance: "+dist.toFixed(1)+" AU<br><br><b>Total Transit Time ( </b>";
+        
+        if(twlvl == 0 && tplvl == 0 && deltalvl == 0 && impulselvl == 0)
+        {
+            document.getElementById('info2').innerHTML += "<b>without mods </b>";
+        }
+        
+        if(twlvl > 0)
+        {
+            document.getElementById('info2').innerHTML += "<b>TW ["+twlvl+"] </b>";
+            minerspeedCalc *= twMultiplier[twlvl];
+            tsspeedCalc *= twMultiplier[twlvl];
+            bsspeedCalc *= twMultiplier[twlvl];
+        }
+        
+        if(tplvl > 0)
+        {
+            document.getElementById('info2').innerHTML += "<b>TP ["+tplvl+"] </b>";
+            distBS = dist - tpDistance[tplvl];
+            distTS = distBS;
+            distMS = distBS;
+            tpTimeSecondsCalc = tpTimeSeconds/twMultiplier[twlvl];
+        }
+        
+        if(deltalvl > 0)
+        {
+            document.getElementById('info2').innerHTML += "<b>Delta ["+deltalvl+"] </b>";
+            minerspeedCalc *= deltaMultiplier[deltalvl];
+            tsspeedCalc *= deltaMultiplier[deltalvl];
+            bsspeedCalc *= deltaMultiplier[deltalvl];
+        }
+        
+        if(impulselvl > 0)
+        {
+            document.getElementById('info2').innerHTML += "<b>Impulse ["+impulselvl+"] </b>";
+            impulseSecondsCalc = impulseSeconds[impulselvl]/twMultiplier[twlvl];
+            var msDistanceCovered = minerspeedCalc*impulseSecondsCalc*impulseMultiplier;
+            var tsDistanceCovered = tsspeedCalc*impulseSecondsCalc*impulseMultiplier;
+            var bsDistanceCovered = bsspeedCalc*impulseSecondsCalc*impulseMultiplier;
+            
+            distBS = distBS - bsDistanceCovered;
+            distTS = distTS - tsDistanceCovered;
+            distMS = distMS - msDistanceCovered;
+        }
+        
+        document.getElementById('info2').innerHTML += "<b>): </b><br>Transport - "+secondsToHms(distTS/tsspeedCalc+tpTimeSecondsCalc+impulseSecondsCalc)+"<br>Miner - "+secondsToHms(distMS/minerspeedCalc+tpTimeSecondsCalc+impulseSecondsCalc)+"<br>Battleship - "+secondsToHms(distBS/bsspeedCalc+tpTimeSecondsCalc+impulseSecondsCalc)+"<br>Alpha Rocket - "+secondsToHms(dist/rocketspeed)+"<br>";					
+                        
+        popupShown = true;
+    }
 	
 	function processImage()
 	{
@@ -237,7 +379,7 @@
 					.setContent("Calibration Point 2 Set")
 					.openOn(map);
 					
-					document.getElementById('info').innerHTML = "If calibrated correctly, each sector should be 500AU diagonally.<br>You can now measure distances on the map by adding waypoints.<br><a href='#' onclick=ResetPoints()>Click HERE to Reset Waypoints.</a>";					
+					document.getElementById('info').innerHTML = "Each sector should be 500AU diagonally.<br>Tap map to add waypoints to measure.<br><a href='#' onclick=ResetPoints()>Click HERE to Reset Waypoints.</a><br><a href='#' onclick=timewarpLevel()>Time Warp [0].</a> <a href='#' onclick=deltaLevel()>Delta [0].</a> <a href='#' onclick=teleportLevel()>Teleport [0].</a> <a href='#' onclick=impulseLevel()>Impulse [0].</a>";					
 				}
 				else
 				{							
@@ -248,25 +390,13 @@
 						lines.push(travel);
 					}		
 					pts.push(e.latlng);	
+                    
+                    popup
+                    .setLatLng(e.latlng)
+                    .setContent("Waypoint " + pts.length)
+                    .openOn(map);
 
-					var dist = 0;
-					for(var i=1;i<pts.length;++i)
-					{
-						dist += distance(pts[i].lat,pts[i].lng,pts[i-1].lat,pts[i-1].lng);
-					}
-					
-				    //scale according to calibration values
-					var calibrationscale = calibrationMeasured/knowncalibrationdistance;
-					
-					dist = dist * knownmultiplier / calibrationscale;	
-					
-					document.getElementById('info2').innerHTML = "Total Distance: "+dist.toFixed(1)+" AU<br><br><b>Total Transit Time (without mods): </b>"+
-					"<br>Transport - "+secondsToHms(dist/tsspeed)+"<br>Miner - "+secondsToHms(dist/minerspeed)+"<br>Battleship - "+secondsToHms(dist/bsspeed)+"<br>Alpha Rocket - "+secondsToHms(dist/rocketspeed)+"<br>";					
-									
-					popup
-					.setLatLng(e.latlng)
-					.setContent("Waypoint " + pts.length)
-					.openOn(map);
+					updateMapPopup(1);
 				}					
 			
 			}
