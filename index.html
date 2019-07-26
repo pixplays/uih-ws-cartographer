@@ -223,6 +223,8 @@ Yellow Star Shield Time: <input type="text" id="output-min" maxlength="2" style=
 		{
 			inhour.value = 0;
 		}
+		inday.value = inday.valueAsNumber;
+		inhour.value = inhour.valueAsNumber;
 		wsShieldHr = inday.valueAsNumber * 24;
 		wsShieldHr += inhour.valueAsNumber;
 		var ratio = wsShieldHr / wsShieldMaxHourDuration * twMultiplier[twlvlShield];
