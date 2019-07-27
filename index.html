@@ -25,20 +25,50 @@
 		body {
 			padding: 0;
 			margin: 0;
+			background-color: #1a1a1a;
+			color: white;
 		}
-		html, body, #map {
+		html, body {
 			height: 100%;
-			//width: 100vw;			
+			//width: 100vw;		
+			background-color: #1a1a1a;
+			color: white;
 		}
+		#map {
+			height: 100%;
+			//width: 100vw;
+			background-color: #1a1a1a;
+			color: black;
+		}
+		/* unvisited link */
+		a:link {
+		  color: springgreen;
+		}
+		
+		/* visited link */
+		a:visited {
+		  color: springgreen;
+		}
+
+		/* mouse over link */
+		a:hover {
+		  color: black;
+		}
+
+		/* selected link */
+		a:active {
+		  color: black;
+		} 
 		#map
 		{				
 			height: 80%;
 		};
+		
 	
 		.button {
 		  background-color: #4CAF50; /* Green */
 		  border: none;
-		  color: white;
+		  color: gray;
 		  padding: 8px 16px;
 		  text-align: center;
 		  text-decoration: none;
@@ -50,8 +80,8 @@
 		  cursor: pointer;
 		}
 		.button1 {
-		  background-color: white; 
-		  color: black; 
+		  background-color: gray; 
+		  color: white; 
 		  border: 2px solid #4CAF50;
 		}
 
