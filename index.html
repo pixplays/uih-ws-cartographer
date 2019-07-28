@@ -111,7 +111,7 @@
 
 <p style="text-align:center" id='info'>Step 1: Load a screenshot of the white star</p>
 <div style="text-align:center">
-<button id='uploadbtn' class="button button1">Select White Star Screenshot</button><br><br>
+<button id='uploadbtn' class="button button1">Select White Star Screenshot or Ctrl-V to paste</button><br><br>
 </div>
 <div id='shieldCalcHeading' style="text-align:center">
 <b>Shield Duration Calculator</b><br>
@@ -325,7 +325,47 @@ Yellow Star Shield Time: <input type="text" id="output-min" maxlength="2" style=
 						
 		document.getElementById('uploadbtn').addEventListener('click', OpenFileDialog, false);
 		
+		// ability to paste image instead of upload
+		window.addEventListener("paste", function(e){
+			// Handle the event
+			retrieveImageFromClipboardAsBlob(e, function(imageBlob){
+				// If there's an image, display it in the canvas
+				if(imageBlob){
+					var origimg = document.getElementById('origimg');
+					origimg.src = URL.createObjectURL(imageBlob);
+					processImage();
+				}
+			});
+		}, false);
 	};
+	
+	function retrieveImageFromClipboardAsBlob(pasteEvent, callback)
+	{
+		if(pasteEvent.clipboardData == false){
+			if(typeof(callback) == "function"){
+				callback(undefined);
+			}
+		};
+
+		var items = pasteEvent.clipboardData.items;
+
+		if(items == undefined){
+			if(typeof(callback) == "function"){
+				callback(undefined);
+			}
+		};
+
+		for (var i = 0; i < items.length; i++) {
+			// Skip content if not image
+			if (items[i].type.indexOf("image") == -1) continue;
+			// Retrieve image on clipboard as blob
+			var blob = items[i].getAsFile();
+
+			if(typeof(callback) == "function"){
+				callback(blob);
+			}
+		}
+	}
 	
 	function distance(x1,y1,x2,y2)
 	{
