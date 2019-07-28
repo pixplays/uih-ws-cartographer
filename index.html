@@ -229,6 +229,8 @@ Yellow Star Shield Time: <input type="text" id="output-min" maxlength="2" style=
 	var knownmultiplier = 4.348; //value empirically determined to get 500AU across one ws sector's long diagonal
 	var knowncalibrationdistance = 500; //known calibration distance is 500AU per sector diagonal. it's short but its easy to perform
 	var calibrationMeasured = 0; //to compare ratio to our measurements
+	
+	var imgloaded = false;
 			
 	var infobox = L.control();
 
@@ -328,14 +330,17 @@ Yellow Star Shield Time: <input type="text" id="output-min" maxlength="2" style=
 		// ability to paste image instead of upload
 		window.addEventListener("paste", function(e){
 			// Handle the event
-			retrieveImageFromClipboardAsBlob(e, function(imageBlob){
-				// If there's an image, display it in the canvas
-				if(imageBlob){
-					var origimg = document.getElementById('origimg');
-					origimg.src = URL.createObjectURL(imageBlob);
-					processImage();
-				}
-			});
+			if (!imgloaded)
+			{
+				retrieveImageFromClipboardAsBlob(e, function(imageBlob){
+					// If there's an image, display it in the canvas
+					if(imageBlob){
+						var origimg = document.getElementById('origimg');
+						origimg.src = URL.createObjectURL(imageBlob);
+						processImage();
+					}
+				});
+			}
 		}, false);
 	};
 	
@@ -478,7 +483,7 @@ Yellow Star Shield Time: <input type="text" id="output-min" maxlength="2" style=
 		var img = document.getElementById('origimg');
 		img.onload = function()
 		{
-
+			imgloaded = true;
 			var bounds = [xy(0, 0), xy(img.width, img.height)];
 			var image = L.imageOverlay(document.getElementById('origimg').src, bounds).addTo(map);
 
