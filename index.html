@@ -445,6 +445,10 @@ Yellow Star Shield Time: <input type="text" id="output-min" maxlength="2" style=
         {
             document.getElementById('info2').innerHTML += "<b>TP ["+tplvl+"] </b>";
             distBS = dist - tpDistance[tplvl];
+            if (distBS < 0)
+            {
+                distBS = 0;
+            }
             distTS = distBS;
             distMS = distBS;
             tpTimeSecondsCalc = tpTimeSeconds/twMultiplier[twlvl];
