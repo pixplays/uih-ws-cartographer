@@ -150,7 +150,9 @@ Yellow Star Shield Time: <input type="text" id="output-min" maxlength="2" style=
 	var minerspeed = 43.2/3600;
 	var tsspeed = 57.6/3600;
 	var bsspeed = 60/3600;
-	var rocketspeed = 132/3600;
+	var alpharocketspeed = 132/3600;
+    var deltarocketspeed = 150/3600;
+    var omegarocketspeed = 60/3600;
     
 	window.dataLayer = window.dataLayer || [];
 	function gtag(){dataLayer.push(arguments);}
@@ -404,6 +406,9 @@ Yellow Star Shield Time: <input type="text" id="output-min" maxlength="2" style=
         var bsspeedCalc = bsspeed;
         var tpTimeSecondsCalc = 0;
         var impulseSecondsCalc = 0;
+        var bsImpulseSecondsCalc = 0;
+        var tsImpulseSecondsCalc = 0;
+        var msImpulseSecondsCalc = 0;
         var dist = 0;
         var distBS = 0;
         var distTS = 0;
@@ -461,12 +466,34 @@ Yellow Star Shield Time: <input type="text" id="output-min" maxlength="2" style=
             var tsDistanceCovered = tsspeedCalc*impulseSecondsCalc*impulseMultiplier;
             var bsDistanceCovered = bsspeedCalc*impulseSecondsCalc*impulseMultiplier;
             
+            bsImpulseSecondsCalc = impulseSecondsCalc;
+            tsImpulseSecondsCalc = impulseSecondsCalc;
+            msImpulseSecondsCalc = impulseSecondsCalc;
+            
+            if (bsDistanceCovered > distBS)
+            {
+                bsImpulseSecondsCalc = impulseSecondsCalc*(distBS/bsDistanceCovered);
+                bsDistanceCovered = distBS;
+            }
+            
+            if (tsDistanceCovered > distTS)
+            {
+                tsImpulseSecondsCalc = impulseSecondsCalc*(distTS/tsDistanceCovered);
+                tsDistanceCovered = distTS;
+            }
+            
+            if (msDistanceCovered > distMS)
+            {
+                msImpulseSecondsCalc = impulseSecondsCalc*(distMS/msDistanceCovered);
+                msDistanceCovered = distMS;
+            }
+            
             distBS = distBS - bsDistanceCovered;
             distTS = distTS - tsDistanceCovered;
             distMS = distMS - msDistanceCovered;
         }
         
-        document.getElementById('info2').innerHTML += "<b>): </b><br>Transport - "+secondsToHms(distTS/tsspeedCalc+tpTimeSecondsCalc+impulseSecondsCalc)+"<br>Miner - "+secondsToHms(distMS/minerspeedCalc+tpTimeSecondsCalc+impulseSecondsCalc)+"<br>Battleship - "+secondsToHms(distBS/bsspeedCalc+tpTimeSecondsCalc+impulseSecondsCalc)+"<br>Alpha Rocket - "+secondsToHms(dist/rocketspeed)+"<br>";					
+        document.getElementById('info2').innerHTML += "<b>): </b><br>Transport - "+secondsToHms(distTS/tsspeedCalc+tpTimeSecondsCalc+tsImpulseSecondsCalc)+"<br>Miner - "+secondsToHms(distMS/minerspeedCalc+tpTimeSecondsCalc+msImpulseSecondsCalc)+"<br>Battleship - "+secondsToHms(distBS/bsspeedCalc+tpTimeSecondsCalc+bsImpulseSecondsCalc)+"<br>Alpha Rocket - "+secondsToHms(dist/alpharocketspeed)+"<br>Delta Rocket - "+secondsToHms(dist/deltarocketspeed)+"<br>Omega Rocket - "+secondsToHms(dist/omegarocketspeed)+"<br>";					
                         
         popupShown = true;
     }
