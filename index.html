@@ -117,9 +117,10 @@
 <b>Shield Duration Calculator</b><br>
 </div>
 <div id='shieldCalcTW' style="text-align:center">
-<a href='#' onclick=timewarpLevelShields()>Time Warp [0].</a><br>
+<!--<a href='#' onclick=timewarpLevelShields()>Time Warp [0].</a><br>-->
 </div>
 <div id='shieldCalc' style="text-align:center">
+Time Warp: <input type="number" id="input-twShield" onkeyup="twShieldUpdate()" onchange="twShieldUpdate()" value=0 min="0" max="10" style="width: 2.75em;"/><br>
 WS Duration Remaining: <input type="number" id="input-day" onkeyup="wsShieldHrCalc()" onchange="wsShieldHrCalc()" value=0 min="0" max="2" style="width: 3em;"/> days <input type="number" id="input-hour" onkeyup="wsShieldHrCalc()" onchange="wsShieldHrCalc()" value=0 min="0" style="width: 3em;" /> hours<br>
 Yellow Star Shield Time: <input type="text" id="output-min" maxlength="2" style="width: 3em;" value=0 readonly /> mins <input type="text" id="output-sec" maxlength="2" style="width: 3em;" value=0 readonly /> sec
 </div>
@@ -248,7 +249,48 @@ Yellow Star Shield Time: <input type="text" id="output-min" maxlength="2" style=
 	};
 
 	infobox.addTo(map);
-	
+    
+    function inUpdate(input)
+    {       
+        if(isNaN(input.valueAsNumber))
+        {
+            input.value = 0;
+        }
+        
+        input.value = input.valueAsNumber;
+        return input.valueAsNumber;
+    }
+    
+    function twShieldUpdate()
+    {
+        twlvlShield = inUpdate(document.getElementById("input-twShield"));
+        wsShieldHrCalc();
+    }
+    
+    function twUpdate()
+    {
+        twlvl = inUpdate(document.getElementById("input-tw"));
+        updateMapPopup();
+    }
+    
+    function tpUpdate()
+    {
+        tplvl = inUpdate(document.getElementById("input-tp"));
+        updateMapPopup();
+    }
+    
+    function impulseUpdate()
+    {
+        impulselvl = inUpdate(document.getElementById("input-impulse"));
+        updateMapPopup();
+    }
+    
+    function deltaUpdate()
+    {
+        deltalvl = inUpdate(document.getElementById("input-delta"));
+        updateMapPopup();
+    }
+    
 	function wsShieldHrCalc()
 	{
 		var inday = document.getElementById("input-day");
@@ -545,7 +587,8 @@ Yellow Star Shield Time: <input type="text" id="output-min" maxlength="2" style=
 					.setContent("Calibration Point 2 Set")
 					.openOn(map);
 					
-					document.getElementById('info').innerHTML = "Each sector should be 500AU diagonally.<br>Tap map to add waypoints to measure.<br><a href='#' onclick=ResetPoints()>Click HERE to Reset Waypoints.</a><br><a href='#' onclick=timewarpLevel()>Time Warp [0].</a> <a href='#' onclick=deltaLevel()>Delta [0].</a> <a href='#' onclick=teleportLevel()>Teleport [0].</a> <a href='#' onclick=impulseLevel()>Impulse [0].</a>";					
+					document.getElementById('info').innerHTML = "Each sector should be 500AU diagonally.<br>Tap map to add waypoints to measure.<br><a href='#' onclick=ResetPoints()>Click HERE to Reset Waypoints.</a><br>Time Warp: <input type='number' id='input-tw' onkeyup='twUpdate()' onchange='twUpdate()' value=0 min='0' max='10' style='width: 2.75em;'/> Delta: <input type='number' id='input-delta' onkeyup='deltaUpdate()' onchange='deltaUpdate()' value=0 min='0' max='10' style='width: 2.75em;'/> Teleport: <input type='number' id='input-tp' onkeyup='tpUpdate()' onchange='tpUpdate()' value=0 min='0' max='10' style='width: 2.75em;'/> Impulse: <input type='number' id='input-impulse' onkeyup='impulseUpdate()' onchange='impulseUpdate()' value=0 min='0' max='10' style='width: 2.75em;'/>";
+                    //<br><a href='#' onclick=timewarpLevel()>Time Warp [0].</a> <a href='#' onclick=deltaLevel()>Delta [0].</a> <a href='#' onclick=teleportLevel()>Teleport [0].</a> <a href='#' onclick=impulseLevel()>Impulse [0].</a>					
 				}
 				else
 				{							
