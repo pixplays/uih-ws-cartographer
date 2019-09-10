@@ -170,7 +170,7 @@ Yellow Star Shield Time: <input type="text" id="output-min" maxlength="2" style=
 		map.closePopup();
         popupShown = false;
 	};
-    var teleportLevel = function()
+    /*var teleportLevel = function()
     {
         tplvl = inputLevel("Teleport");
         updateMapPopup();
@@ -209,7 +209,7 @@ Yellow Star Shield Time: <input type="text" id="output-min" maxlength="2" style=
     {
         impulselvl = inputLevel("Impulse");
         updateMapPopup();
-    };
+    };*/
 	var yx = L.latLng;
 	var xy = function(x, y) {
 		if (L.Util.isArray(x)) {    // When doing xy([x, y]);
@@ -315,7 +315,7 @@ Yellow Star Shield Time: <input type="text" id="output-min" maxlength="2" style=
 		document.getElementById("output-sec").value = outsec.toFixed(0);
 	}
     
-    function inputLevel(promptText, displayText)
+    /*function inputLevel(promptText, displayText)
     {
         if (displayText === undefined)
         {
@@ -338,7 +338,7 @@ Yellow Star Shield Time: <input type="text" id="output-min" maxlength="2" style=
         document.getElementById('info').innerHTML = info;
         
         return parseInt(txt);
-    }
+    }*/
 	
 	function showUpload()
 	{
