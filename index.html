@@ -146,6 +146,10 @@ Yellow Star Shield Time: <input type="text" id="output-min" maxlength="2" style=
     var impulseSeconds = [0, 30*60, 37*60, 45*60, 52*60, 60*60, 67*60, 75*60, 86*60, 97*60, 112*60]
 	var wsShieldMaxHourDuration = 50;
 	var ShieldMaxMinDuration = 5;
+    var weaponTPRangeCalc = false;
+    
+    //weapons range for battleships
+    var weaponsRange = 120;
     
     //vessel speeds in au per second
 	var minerspeed = 43.2/3600;
@@ -288,6 +292,12 @@ Yellow Star Shield Time: <input type="text" id="output-min" maxlength="2" style=
     function deltaUpdate()
     {
         deltalvl = inUpdate(document.getElementById("input-delta"));
+        updateMapPopup();
+    }
+    
+    function weaponTPRange()
+    {
+        weaponTPRangeCalc = document.getElementById("weapon-tp-range-checkbox").checked;
         updateMapPopup();
     }
     
@@ -463,12 +473,25 @@ Yellow Star Shield Time: <input type="text" id="output-min" maxlength="2" style=
         //scale according to calibration values
         var calibrationscale = calibrationMeasured/knowncalibrationdistance;
         
-        dist = dist * knownmultiplier / calibrationscale;	
+        dist = dist * knownmultiplier / calibrationscale;
         distBS = dist;
-        distTS = distBS;
-        distMS = distBS;
+        if(weaponTPRangeCalc)
+        {
+            distBS = dist - weaponsRange;
+        }
+        distTS = dist;
+        distMS = dist;
         
-        document.getElementById('info2').innerHTML = "Total Distance: "+dist.toFixed(1)+" AU<br><br><b>Total Transit Time ( </b>";
+        document.getElementById('info2').innerHTML = "Total Distance: "+dist.toFixed(1)+" AU<br><br>";
+        
+        if(!weaponTPRangeCalc)
+        {
+            document.getElementById('info2').innerHTML += "<b>Transit Time ( </b>";
+        }
+        else
+        {
+            document.getElementById('info2').innerHTML += "<b>Time to Weapons / TP Range ( </b>";
+        }
         
         if(twlvl == 0 && tplvl == 0 && deltalvl == 0 && impulselvl == 0)
         {
@@ -493,7 +516,10 @@ Yellow Star Shield Time: <input type="text" id="output-min" maxlength="2" style=
             }
             distTS = distBS;
             distMS = distBS;
-            tpTimeSecondsCalc = tpTimeSeconds/twMultiplier[twlvl];
+            if(!weaponTPRangeCalc)
+            {
+                tpTimeSecondsCalc = tpTimeSeconds/twMultiplier[twlvl];
+            }
         }
         
         if(deltalvl > 0)
@@ -538,8 +564,17 @@ Yellow Star Shield Time: <input type="text" id="output-min" maxlength="2" style=
             distTS = distTS - tsDistanceCovered;
             distMS = distMS - msDistanceCovered;
         }
-        
-        document.getElementById('info2').innerHTML += "<b>): </b><br>Transport - "+secondsToHms(distTS/tsspeedCalc+tpTimeSecondsCalc+tsImpulseSecondsCalc)+"<br>Miner - "+secondsToHms(distMS/minerspeedCalc+tpTimeSecondsCalc+msImpulseSecondsCalc)+"<br>Battleship - "+secondsToHms(distBS/bsspeedCalc+tpTimeSecondsCalc+bsImpulseSecondsCalc)+"<br>Alpha Rocket - "+secondsToHms(dist/alpharocketspeed)+"<br>Delta Rocket - "+secondsToHms(dist/deltarocketspeed)+"<br>Omega Rocket - "+secondsToHms(dist/omegarocketspeed)+"<br>";					
+        console.log(distBS);
+        document.getElementById('info2').innerHTML += "<b>): </b><br>";
+        document.getElementById('info2').innerHTML += "Battleship - "+secondsToHms(distBS/bsspeedCalc+tpTimeSecondsCalc+bsImpulseSecondsCalc)+"<br>";
+        if(!weaponTPRangeCalc)
+        {
+            document.getElementById('info2').innerHTML += "Transport - "+secondsToHms(distTS/tsspeedCalc+tpTimeSecondsCalc+tsImpulseSecondsCalc)+"<br>";
+            document.getElementById('info2').innerHTML += "Miner - "+secondsToHms(distMS/minerspeedCalc+tpTimeSecondsCalc+msImpulseSecondsCalc)+"<br>";
+        }
+        document.getElementById('info2').innerHTML += "Alpha Rocket - "+secondsToHms(dist/alpharocketspeed)+"<br>";
+        document.getElementById('info2').innerHTML += "Delta Rocket - "+secondsToHms(dist/deltarocketspeed)+"<br>";
+        document.getElementById('info2').innerHTML += "Omega Rocket - "+secondsToHms(dist/omegarocketspeed)+"<br>";
                         
         popupShown = true;
     }
@@ -587,7 +622,7 @@ Yellow Star Shield Time: <input type="text" id="output-min" maxlength="2" style=
 					.setContent("Calibration Point 2 Set")
 					.openOn(map);
 					
-					document.getElementById('info').innerHTML = "Each sector should be 500AU diagonally.<br>Tap map to add waypoints to measure.<br><a href='#' onclick=ResetPoints()>Click HERE to Reset Waypoints.</a><br>TW: <input type='number' id='input-tw' onkeyup='twUpdate()' onchange='twUpdate()' value=0 min='0' max='10' style='width: 2.75em;'/> Delta: <input type='number' id='input-delta' onkeyup='deltaUpdate()' onchange='deltaUpdate()' value=0 min='0' max='10' style='width: 2.75em;'/> TP: <input type='number' id='input-tp' onkeyup='tpUpdate()' onchange='tpUpdate()' value=0 min='0' max='10' style='width: 2.75em;'/> Impulse: <input type='number' id='input-impulse' onkeyup='impulseUpdate()' onchange='impulseUpdate()' value=0 min='0' max='10' style='width: 2.75em;'/>";
+					document.getElementById('info').innerHTML = "Each sector should be 500AU diagonally.<br>Tap map to add waypoints to measure.<br><a href='#' onclick=ResetPoints()>Click HERE to Reset Waypoints.</a><br>TW: <input type='number' id='input-tw' onkeyup='twUpdate()' onchange='twUpdate()' value=0 min='0' max='10' style='width: 2.75em;'/> Delta: <input type='number' id='input-delta' onkeyup='deltaUpdate()' onchange='deltaUpdate()' value=0 min='0' max='10' style='width: 2.75em;'/> TP: <input type='number' id='input-tp' onkeyup='tpUpdate()' onchange='tpUpdate()' value=0 min='0' max='10' style='width: 2.75em;'/> Impulse: <input type='number' id='input-impulse' onkeyup='impulseUpdate()' onchange='impulseUpdate()' value=0 min='0' max='10' style='width: 2.75em;'/><br><input type='checkbox' id='weapon-tp-range-checkbox' value='Value1' onclick='weaponTPRange()' onchange='weaponTPRange()' /> Weapons / TP Range";
                     //<br><a href='#' onclick=timewarpLevel()>Time Warp [0].</a> <a href='#' onclick=deltaLevel()>Delta [0].</a> <a href='#' onclick=teleportLevel()>Teleport [0].</a> <a href='#' onclick=impulseLevel()>Impulse [0].</a>					
 				}
 				else
