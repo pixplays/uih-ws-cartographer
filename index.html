@@ -120,7 +120,7 @@
 <!--<a href='#' onclick=timewarpLevelShields()>Time Warp [0].</a><br>-->
 </div>
 <div id='shieldCalc' style="text-align:center">
-Time Warp: <input type="number" id="input-twShield" onkeyup="twShieldUpdate()" onchange="twShieldUpdate()" value=0 min="0" max="10" style="width: 2.75em;"/><br>
+Time Warp: <input type="number" id="input-twShield" onkeyup="twShieldUpdate()" onchange="twShieldUpdate()" value=0 min="0" max="12" style="width: 2.75em;"/><br>
 WS Duration Remaining: <input type="number" id="input-day" onkeyup="wsShieldHrCalc()" onchange="wsShieldHrCalc()" value=0 min="0" max="2" style="width: 3em;"/> days <input type="number" id="input-hour" onkeyup="wsShieldHrCalc()" onchange="wsShieldHrCalc()" value=0 min="0" style="width: 3em;" /> hours<br>
 Yellow Star Shield Time: <input type="text" id="output-min" maxlength="2" style="width: 3em;" value=0 readonly /> mins <input type="text" id="output-sec" maxlength="2" style="width: 3em;" value=0 readonly /> sec
 </div>
@@ -138,12 +138,12 @@ Yellow Star Shield Time: <input type="text" id="output-min" maxlength="2" style=
 	var wsShieldHr = 0;
     
     // mods multipliers
-    var twMultiplier = [1, 1.2, 1.3, 1.4, 1.5, 1.6, 1.7, 1.8, 1.9, 2.0, 2.1];
-    var deltaMultiplier = [1, 1.06, 1.1, 1.14, 1.18, 1.22, 1.26, 1.3, 1.33, 1.36, 1.4];
-    var tpDistance = [0, 300, 330, 360, 400, 440, 485, 535, 580, 650, 700];
+    var twMultiplier = [1, 1.2, 1.3, 1.4, 1.5, 1.6, 1.7, 1.8, 1.9, 2.0, 2.2, 2.4, 2.6];
+    var deltaMultiplier = [1, 1.06, 1.1, 1.14, 1.18, 1.22, 1.26, 1.3, 1.33, 1.36, 1.4, 1.45, 1.5];
+    var tpDistance = [0, 300, 330, 360, 400, 440, 485, 535, 580, 650, 700, 750, 800];
     var tpTimeSeconds = 4*60*60;
     var impulseMultiplier = 4;
-    var impulseSeconds = [0, 30*60, 37*60, 45*60, 52*60, 60*60, 67*60, 75*60, 86*60, 97*60, 112*60]
+    var impulseSeconds = [0, 30*60, 37*60, 45*60, 52*60, 60*60, 67*60, 75*60, 86*60, 97*60, 112*60, 130*60, 150*60];
 	var wsShieldMaxHourDuration = 50;
 	var ShieldMaxMinDuration = 5;
     var weaponTPRangeCalc = false;
@@ -174,46 +174,7 @@ Yellow Star Shield Time: <input type="text" id="output-min" maxlength="2" style=
 		map.closePopup();
         popupShown = false;
 	};
-    /*var teleportLevel = function()
-    {
-        tplvl = inputLevel("Teleport");
-        updateMapPopup();
-    }
-    var timewarpLevel = function()
-    {
-        twlvl = inputLevel("Time Warp");
-        updateMapPopup();
-    };
-	var timewarpLevelShields = function()
-	{
-        var txt;
-        var lvl = prompt("Please enter Time Warp level:", "0");
-        if (lvl == null || lvl == "") {
-            txt = "0";
-            } else {
-                txt = lvl;
-        }
-        var str = "xx \\[(.+?)\\]";
-        str = str.replace("xx", "Time Warp");
-        var regex = new RegExp(str, "g");
-        var regexReplace = "xx ["+parseInt(txt)+"]";
-        regexReplace = regexReplace.replace("xx", "Time Warp")
-        var info = document.getElementById('shieldCalcTW').innerHTML;
-        info = info.replace(regex, regexReplace)
-        document.getElementById('shieldCalcTW').innerHTML = info;
-		twlvlShield = parseInt(txt);
-		wsShieldHrCalc();
-	}
-    var deltaLevel = function()
-    {
-        deltalvl = inputLevel("Delta Shields", "Delta");
-        updateMapPopup();
-    };
-    var impulseLevel = function()
-    {
-        impulselvl = inputLevel("Impulse");
-        updateMapPopup();
-    };*/
+    
 	var yx = L.latLng;
 	var xy = function(x, y) {
 		if (L.Util.isArray(x)) {    // When doing xy([x, y]);
@@ -324,31 +285,6 @@ Yellow Star Shield Time: <input type="text" id="output-min" maxlength="2" style=
 		document.getElementById("output-min").value = Math.floor(ysMin);
 		document.getElementById("output-sec").value = outsec.toFixed(0);
 	}
-    
-    /*function inputLevel(promptText, displayText)
-    {
-        if (displayText === undefined)
-        {
-            displayText = promptText;
-        }
-        var txt;
-        var lvl = prompt("Please enter " +promptText+ " level:", "0");
-        if (lvl == null || lvl == "") {
-            txt = "0";
-            } else {
-                txt = lvl;
-        }
-        var str = "xx \\[(.+?)\\]";
-        str = str.replace("xx", displayText);
-        var regex = new RegExp(str, "g");
-        var regexReplace = "xx ["+parseInt(txt)+"]";
-        regexReplace = regexReplace.replace("xx", displayText)
-        var info = document.getElementById('info').innerHTML;
-        info = info.replace(regex, regexReplace)
-        document.getElementById('info').innerHTML = info;
-        
-        return parseInt(txt);
-    }*/
 	
 	function showUpload()
 	{
@@ -622,7 +558,7 @@ Yellow Star Shield Time: <input type="text" id="output-min" maxlength="2" style=
 					.setContent("Calibration Point 2 Set")
 					.openOn(map);
 					
-					document.getElementById('info').innerHTML = "Each sector should be 500AU diagonally.<br>Tap map to add waypoints to measure.<br><a href='#' onclick=ResetPoints()>Click HERE to Reset Waypoints.</a><br>TW: <input type='number' id='input-tw' onkeyup='twUpdate()' onchange='twUpdate()' value=0 min='0' max='10' style='width: 2.75em;'/> Delta: <input type='number' id='input-delta' onkeyup='deltaUpdate()' onchange='deltaUpdate()' value=0 min='0' max='10' style='width: 2.75em;'/> TP: <input type='number' id='input-tp' onkeyup='tpUpdate()' onchange='tpUpdate()' value=0 min='0' max='10' style='width: 2.75em;'/> Impulse: <input type='number' id='input-impulse' onkeyup='impulseUpdate()' onchange='impulseUpdate()' value=0 min='0' max='10' style='width: 2.75em;'/><br><input type='checkbox' id='weapon-tp-range-checkbox' value='Value1' onclick='weaponTPRange()' onchange='weaponTPRange()' /> Weapons / TP Range";
+					document.getElementById('info').innerHTML = "Each sector should be 500AU diagonally.<br>Tap map to add waypoints to measure.<br><a href='#' onclick=ResetPoints()>Click HERE to Reset Waypoints.</a><br>TW: <input type='number' id='input-tw' onkeyup='twUpdate()' onchange='twUpdate()' value=0 min='0' max='12' style='width: 2.75em;'/> Delta: <input type='number' id='input-delta' onkeyup='deltaUpdate()' onchange='deltaUpdate()' value=0 min='0' max='12' style='width: 2.75em;'/> TP: <input type='number' id='input-tp' onkeyup='tpUpdate()' onchange='tpUpdate()' value=0 min='0' max='12' style='width: 2.75em;'/> Impulse: <input type='number' id='input-impulse' onkeyup='impulseUpdate()' onchange='impulseUpdate()' value=0 min='0' max='12' style='width: 2.75em;'/><br><input type='checkbox' id='weapon-tp-range-checkbox' value='Value1' onclick='weaponTPRange()' onchange='weaponTPRange()' /> Weapons / TP Range";
                     //<br><a href='#' onclick=timewarpLevel()>Time Warp [0].</a> <a href='#' onclick=deltaLevel()>Delta [0].</a> <a href='#' onclick=teleportLevel()>Teleport [0].</a> <a href='#' onclick=impulseLevel()>Impulse [0].</a>					
 				}
 				else
