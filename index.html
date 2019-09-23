@@ -111,14 +111,14 @@
 
 <p style="text-align:center" id='info'>Step 1: Load a screenshot of the white star</p>
 <div style="text-align:center">
-<button id='uploadbtn' class="button button1">Select White Star Screenshot or Ctrl-V to paste</button><br><br>
+<button id='uploadbtn' class="button button1">Select White Star Screenshot or Ctrl-V to paste</button><!--<br><br>-->
 </div>
 <div id='shieldCalcHeading' style="text-align:center">
 <b>Shield Duration Calculator</b><br>
 </div>
-<div id='shieldCalcTW' style="text-align:center">
+<!--<div id='shieldCalcTW' style="text-align:center">-->
 <!--<a href='#' onclick=timewarpLevelShields()>Time Warp [0].</a><br>-->
-</div>
+<!--</div>-->
 <div id='shieldCalc' style="text-align:center">
 Time Warp: <input type="number" id="input-twShield" onkeyup="twShieldUpdate()" onchange="twShieldUpdate()" value=0 min="0" max="12" style="width: 2.75em;"/><br>
 WS Duration Remaining: <input type="number" id="input-day" onkeyup="wsShieldHrCalc()" onchange="wsShieldHrCalc()" value=0 min="0" max="2" style="width: 3em;"/> days <input type="number" id="input-hour" onkeyup="wsShieldHrCalc()" onchange="wsShieldHrCalc()" value=0 min="0" style="width: 3em;" /> hours<br>
@@ -520,7 +520,7 @@ Yellow Star Shield Time: <input type="text" id="output-min" maxlength="2" style=
 		document.getElementById('map').style.display = "";
 		document.getElementById('uploadbtn').style.display = "none";
 		document.getElementById('shieldCalcHeading').style.display = "none";
-		document.getElementById('shieldCalcTW').style.display = "none";
+		//document.getElementById('shieldCalcTW').style.display = "none";
 		document.getElementById('shieldCalc').style.display = "none";
 		document.getElementById('info').innerHTML = "Step 2 (Calibration): Click on one corner at the edge of any sector. <a href='images/instruct1.png' target='_blank'>(Need Help?)</a>";
 	
