@@ -118,8 +118,8 @@
 </div>
 <div id='shieldCalc' style="text-align:center">
 Time Warp: <input type="number" id="input-twShield" onkeyup="twShieldUpdate()" onchange="twShieldUpdate()" value=0 min="0" max="12" style="width: 2.75em;"/><br>
-Non-Time Warped Duration: <input type="number" id="input-nwday" onkeyup="wsShieldHrCalc()" onchange="wsShieldHrCalc()" value=0 min="0" max="2" style="width: 3em;"/> days <input type="number" id="input-nwhour" onkeyup="wsShieldHrCalc()" onchange="wsShieldHrCalc()" value=0 min="0" style="width: 3em;" /> hours<br>
-WS Total Duration Remaining: <input type="number" id="input-day" onkeyup="wsShieldHrCalc()" onchange="wsShieldHrCalc()" value=0 min="0" max="2" style="width: 3em;"/> days <input type="number" id="input-hour" onkeyup="wsShieldHrCalc()" onchange="wsShieldHrCalc()" value=0 min="0" style="width: 3em;" /> hours<br>
+WS Non-Time Warped Duration: <input type="number" id="input-nwday" onkeyup="wsShieldHrCalc()" onchange="wsShieldHrCalc()" value=0 min="0" max="2" style="width: 3em;"/> days <input type="number" id="input-nwhour" onkeyup="wsShieldHrCalc()" onchange="wsShieldHrCalc()" value=0 min="0" style="width: 3em;" /> hours<br>
+WS Warped Duration Remaining: <input type="number" id="input-day" onkeyup="wsShieldHrCalc()" onchange="wsShieldHrCalc()" value=0 min="0" max="2" style="width: 3em;"/> days <input type="number" id="input-hour" onkeyup="wsShieldHrCalc()" onchange="wsShieldHrCalc()" value=0 min="0" style="width: 3em;" /> hours<br>
 Yellow Star Shield Time: <input type="text" id="output-min" maxlength="2" style="width: 3em;" value=0 readonly /> mins <input type="text" id="output-sec" maxlength="2" style="width: 3em;" value=0 readonly /> sec
 </div>
 <div id='map' style='display: none'>
@@ -292,7 +292,7 @@ Yellow Star Shield Time: <input type="text" id="output-min" maxlength="2" style=
 		wsShieldHr += inhour.valueAsNumber;
 		var nwWsShieldHr = nwinday.valueAsNumber * 24;
 		nwWsShieldHr += nwinhour.valueAsNumber;
-		wsShieldHr -= nwWsShieldHr;
+		//wsShieldHr -= nwWsShieldHr;
 		
 		// ratio is multiplied by 1000 to avoid IEEE 754 Floating Point number issue where 1/3 can't be represented properly.
 		var ratio = wsShieldHr / wsShieldMaxDurationHour * twMultiplier[twlvlShield] * 1000;
