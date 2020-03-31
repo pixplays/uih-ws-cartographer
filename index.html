@@ -126,16 +126,17 @@ Yellow Star Shield Time: <input type="text" id="output-min" maxlength="2" style=
 <b>Mining Speed Calculator</b><br>
 Time Warp: <input type="number" id="input-twMining" onkeyup="twMiningUpdate()" onchange="twMiningUpdate()" value=0 min="0" max="12" style="width: 2.75em;"/><br>
 Hydro Amount: <input type="number" id="input-hAmount" onkeyup="hMiningUpdate()" onchange="hMiningUpdate()" value=0 min="0" max="9999" style="width: 3.75em;"/><br>
-# of miners: <input type="number" id="input-miningAllies" onkeyup="miningAlliesUpdate()" onchange="miningAlliesUpdate()" value=1 min="1" max="12" style="width: 2.75em;"/><br>
+# of Asteroids: <input type="number" id="input-hCount" onkeyup="hCountUpdate()" onchange="hCountUpdate()" value=0 min="0" max="15" style="width: 2.75em;"/><br>
+# of Miners: <input type="number" id="input-miningAllies" onkeyup="miningAlliesUpdate()" onchange="miningAlliesUpdate()" value=1 min="1" max="12" style="width: 2.75em;"/><br>
 </div>
 <div id='miningCalc' style="text-align:center">
 <!--Miner Level: <input type="number" id="input-minerLevel" onkeyup="minerLevelUpdate()" onchange="minerLevelUpdate()" value=0 min="0" max="6" style="width: 2.75em;"/> Mining Boost: <input type="number" id="input-miningBoost" onkeyup="miningBoostUpdate()" onchange="miningBoostUpdate()" value=0 min="0" max="12" style="width: 2.75em;"/><br>Remote Mining: <input type="number" id="input-remoteMining" onkeyup="remoteMiningUpdate()" onchange="remoteMiningUpdate()" value=0 min="0" max="12" style="width: 2.75em;"/>Mining Unity: <input type="number" id="input-miningUnity" onkeyup="miningUnityUpdate()" onchange="miningUnityUpdate()" value=0 min="0" max="12" style="width: 2.75em;"/><br>-->
 </div>
 <div id='miningCalcFooter' style="text-align:center">
 <b>Mining Results:</b><br>
-Mining RS h/m: <input type="text" id="output-hpmRSMining" maxlength="6" style="width: 4em;" value=0 readonly /> h/m<br>
-Mining WS h/m: <input type="text" id="output-hpmWSMining" maxlength="6" style="width: 4em;" value=0 readonly /> h/m<br>
-WS Mining Time: <input type="text" id="output-hrMining" maxlength="2" style="width: 3em;" value=0 readonly /> hours <input type="text" id="output-minMining" maxlength="2" style="width: 3em;" value=0 readonly /> mins
+Mining RS h2/m: <input type="text" id="output-hpmRSMining" maxlength="6" style="width: 4em;" value=0 readonly /> h2/m<br>
+Mining WS h2/h: <input type="text" id="output-hpWSMining" maxlength="6" style="width: 4em;" value=0 readonly /> h2/h<br>
+WS Mining Time: <input type="text" id="output-dayMining" maxlength="2" style="width: 3em;" value=0 readonly /> days <input type="text" id="output-hrMining" maxlength="2" style="width: 3em;" value=0 readonly /> hours
 </div>
 <div id='map' style='display: none'>
 <img id='origimg' style='display:none' src='' />
@@ -153,6 +154,7 @@ WS Mining Time: <input type="text" id="output-hrMining" maxlength="2" style="wid
 	var wsMiningHr = 0;
 	var hMiningAmount = 0;
 	var hMiningAllies = 0;
+	var hMiningCount = 0;
 	var hMiningLevel = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
 	var hMiningBoost = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
 	var hMiningRemote = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
@@ -274,6 +276,12 @@ WS Mining Time: <input type="text" id="output-hrMining" maxlength="2" style="wid
         wsMiningHrCalc();
     }
 	
+	function hCountUpdate()
+    {
+        hMiningCount = inUpdate(document.getElementById("input-hCount"));
+        wsMiningHrCalc();
+    }
+	
 	function miningAlliesUpdate()
     {
 		var i = 0;
@@ -287,31 +295,31 @@ WS Mining Time: <input type="text" id="output-hrMining" maxlength="2" style="wid
 		document.getElementById("miningCalc").innerHTML = "";
 		
 		for (i = 0; i < hMiningAllies + 1; i++) {
-			document.getElementById("miningCalc").innerHTML += "<b>Miner #" + (i+1) +":</b><br>Miner Level #" + (i+1) +": <input type='number' id='input-minerLevel' onkeyup='minerLevelUpdate(" + (i+1) +")' onchange='minerLevelUpdate(" + (i+1) +")' value=" + hMiningLevel[(i+1)] + " min='0' max='6' style='width: 2.75em;'/> Mining Boost #" + (i+1) +": <input type='number' id='input-miningBoost' onkeyup='miningBoostUpdate(" + (i+1) +")' onchange='miningBoostUpdate(" + (i+1) +")' value=" + hMiningBoost[(i+1)] + " min='0' max='12' style='width: 2.75em;'/><br>Remote Mining #" + (i+1) +": <input type='number' id='input-remoteMining' onkeyup='remoteMiningUpdate(" + (i+1) +")' onchange='remoteMiningUpdate(" + (i+1) +")' value=" + hMiningRemote[(i+1)] + " min='0' max='12' style='width: 2.75em;'/> Mining Unity #" + (i+1) +": <input type='number' id='input-miningUnity' onkeyup='miningUnityUpdate(" + (i+1) +")' onchange='miningUnityUpdate(" + (i+1) +")' value=" + hMiningUnity[(i+1)] + " min='0' max='12' style='width: 2.75em;'/><br>";
+			document.getElementById("miningCalc").innerHTML += "<b>Miner #" + (i+1) +":</b><br>Miner Level #" + (i+1) +": <input type='number' id='input-minerLevel" + (i+1) +"' onkeyup='minerLevelUpdate(" + (i+1) +")' onchange='minerLevelUpdate(" + (i+1) +")' value=" + hMiningLevel[(i+1)] + " min='0' max='6' style='width: 2.75em;'/> Mining Boost #" + (i+1) +": <input type='number' id='input-miningBoost" + (i+1) +"' onkeyup='miningBoostUpdate(" + (i+1) +")' onchange='miningBoostUpdate(" + (i+1) +")' value=" + hMiningBoost[(i+1)] + " min='0' max='12' style='width: 2.75em;'/><br>Remote Mining #" + (i+1) +": <input type='number' id='input-remoteMining" + (i+1) +"' onkeyup='remoteMiningUpdate(" + (i+1) +")' onchange='remoteMiningUpdate(" + (i+1) +")' value=" + hMiningRemote[(i+1)] + " min='0' max='12' style='width: 2.75em;'/> Mining Unity #" + (i+1) +": <input type='number' id='input-miningUnity" + (i+1) +"' onkeyup='miningUnityUpdate(" + (i+1) +")' onchange='miningUnityUpdate(" + (i+1) +")' value=" + hMiningUnity[(i+1)] + " min='0' max='12' style='width: 2.75em;'/><br>";
 		}
     }
 	
 	function minerLevelUpdate(input)
     {
-        hMiningLevel[input] = inUpdate(document.getElementById("input-minerLevel"));
+        hMiningLevel[input] = inUpdate(document.getElementById("input-minerLevel" + input));
         wsMiningHrCalc();
     }
 	
 	function miningBoostUpdate(input)
     {
-        hMiningBoost[input] = inUpdate(document.getElementById("input-miningBoost"));
+        hMiningBoost[input] = inUpdate(document.getElementById("input-miningBoost" + input));
         wsMiningHrCalc();
     }
 	
 	function remoteMiningUpdate(input)
     {
-        hMiningRemote[input] = inUpdate(document.getElementById("input-remoteMining"));
+        hMiningRemote[input] = inUpdate(document.getElementById("input-remoteMining" + input));
         wsMiningHrCalc();
     }
 	
 	function miningUnityUpdate(input)
     {
-        hMiningUnity[input] = inUpdate(document.getElementById("input-miningUnity"));
+        hMiningUnity[input] = inUpdate(document.getElementById("input-miningUnity" + input));
         wsMiningHrCalc();
     }
     
@@ -394,30 +402,31 @@ WS Mining Time: <input type="text" id="output-hrMining" maxlength="2" style="wid
 	{
 		var i = 0;
 		var miningRShpm = 0;
-		var miningWShpm = 0;
+		var miningWShph = 0;
 		
 		for (i = 1; i < hMiningAllies + 2; i++)
 		{
-			miningRShpm += twMultiplier[twlvlMining] * minerLevelhpm[hMiningLevel[i]] * miningBoostMultiplier[hMiningBoost[i]] * remoteMiningMultipler[hMiningRemote[i]] * (miningUnityMultiplier[hMiningUnity[i]] * hMiningAllies + 1);
+			miningRShpm += twMultiplier[twlvlMining] * minerLevelhpm[hMiningLevel[i]] * miningBoostMultiplier[hMiningBoost[i]] * (remoteMiningMultipler[hMiningRemote[i]] * hMiningCount) * (miningUnityMultiplier[hMiningUnity[i]] * hMiningAllies + 1);
 		}
 		
-		miningWShpm = miningRShpm / 10;
+		// 1 min RS = 10 hr WS
+		miningWShph = miningRShpm / 10;
 		
 		document.getElementById("output-hpmRSMining").value = miningRShpm;
-		document.getElementById("output-hpmWSMining").value = miningWShpm;
+		document.getElementById("output-hpWSMining").value = miningWShph;
 		
-		var wsMiningTimeTotalMins = hMiningAmount / miningWShpm;
-		var wsMiningTimeHrs = Math.floor(wsMiningTimeTotalMins/60);
-		var wsMiningTimeMins = wsMiningTimeTotalMins - (wsMiningTimeHrs * 60);
+		var wsMiningTimeTotalHours = hMiningAmount / miningWShph;
+		var wsMiningTimeDays = Math.floor(wsMiningTimeTotalHours/24);
+		var wsMiningTimeHours = wsMiningTimeTotalHours - (wsMiningTimeDays * 24);
 		
-		if ((miningWShpm <= 0) || (miningRShpm <= 0))
+		if ((miningWShph <= 0) || (miningRShpm <= 0))
 		{
-			wsMiningTimeHrs = 0;
-			wsMiningTimeMins = 0;
+			wsMiningTimeDays = 0;
+			wsMiningTimeHours = 0;
 		}
 
-		document.getElementById("output-hrMining").value = wsMiningTimeHrs;
-		document.getElementById("output-minMining").value = wsMiningTimeMins.toFixed(0);
+		document.getElementById("output-dayMining").value = wsMiningTimeDays;
+		document.getElementById("output-hrMining").value = wsMiningTimeHours.toFixed(0);
 	}
 	
 	function showUpload()
