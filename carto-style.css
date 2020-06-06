@@ -12,6 +12,25 @@ html, body {
   background-color: #1a1a1a;
   color: white;
 }
+
+/* Banner header - logo + text */
+#banner {
+  margin-top: 20px;
+  margin-bottom: 20px;
+  width: 100%;
+  text-align: center;
+}
+#banner #logo {
+  width: 80px;
+  height: 80px;
+  margin: 0 auto;
+  padding: 10px;
+}
+.bannerHeading {
+    text-transform: uppercase;
+    font-weight: bold;
+}
+
 #map {
   height: 100%;
   //width: 100vw;
