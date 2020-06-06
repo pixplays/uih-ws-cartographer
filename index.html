@@ -104,6 +104,15 @@
 			color: #777;
 		}
 
+		.mininginfobox {
+			padding: 6px 8px;
+			font: 14px/16px Arial, Helvetica, sans-serif;
+			color: white;
+			background: rgba(25,25,25,0.8);
+			box-shadow: 0 0 15px rgba(255,255,255,0.2);
+			border-radius: 5px;		
+		}
+
 	</style>
 
 	
@@ -123,21 +132,23 @@ Time Warp: <input type="number" id="input-twShield" onkeyup="twShieldUpdate()" o
 WS Time Warp Duration: <input type="number" id="input-day" onkeyup="wsShieldHrCalc()" onchange="wsShieldHrCalc()" value=0 min="0" max="2" style="width: 3em;"/> days <input type="number" id="input-hour" onkeyup="wsShieldHrCalc()" onchange="wsShieldHrCalc()" value=0 min="0" style="width: 3em;" /> hours<br>
 Yellow Star Shield Time: <input type="text" id="output-min" maxlength="2" style="width: 3em;" value=0 readonly /> mins <input type="text" id="output-sec" maxlength="2" style="width: 3em;" value=0 readonly /> sec
 </div>
-<div id='miningCalcHeading' style="text-align:center">
-<b>Mining Speed Calculator</b><br>
-Time Warp: <input type="number" id="input-twMining" onkeyup="twMiningUpdate()" onchange="twMiningUpdate()" value=0 min="0" max="12" style="width: 2.75em;"/><br>
-Hydro Amount: <input type="number" id="input-hAmount" onkeyup="hMiningUpdate()" onchange="hMiningUpdate()" value=0 min="0" max="9999" style="width: 3.75em;"/><br>
-# of Asteroids: <input type="number" id="input-hCount" onkeyup="hCountUpdate()" onchange="hCountUpdate()" value=1 min="1" max="15" style="width: 2.75em;"/><br>
-# of Miners: <input type="number" id="input-miningAllies" onkeyup="miningAlliesUpdate()" onchange="miningAlliesUpdate()" value=1 min="1" max="12" style="width: 2.75em;"/><br>
-</div>
-<div id='miningCalc' style="text-align:center">
-<!--Miner Level: <input type="number" id="input-minerLevel" onkeyup="minerLevelUpdate()" onchange="minerLevelUpdate()" value=0 min="0" max="6" style="width: 2.75em;"/> Mining Boost: <input type="number" id="input-miningBoost" onkeyup="miningBoostUpdate()" onchange="miningBoostUpdate()" value=0 min="0" max="12" style="width: 2.75em;"/><br>Remote Mining: <input type="number" id="input-remoteMining" onkeyup="remoteMiningUpdate()" onchange="remoteMiningUpdate()" value=0 min="0" max="12" style="width: 2.75em;"/>Mining Unity: <input type="number" id="input-miningUnity" onkeyup="miningUnityUpdate()" onchange="miningUnityUpdate()" value=0 min="0" max="12" style="width: 2.75em;"/><br>-->
-</div>
-<div id='miningCalcFooter' style="text-align:center">
-<b>Mining Results:</b><br>
-Mining RS: <input type="text" id="output-hpmRSMining" maxlength="6" style="width: 4em;" value=0 readonly /> h2/m<br>
-Mining WS: <input type="text" id="output-hpWSMining" maxlength="6" style="width: 4em;" value=0 readonly /> h2/h<br>
-WS Mining Time: <input type="text" id="output-dayMining" maxlength="2" style="width: 3em;" value=0 readonly /> days <input type="text" id="output-hrMining" maxlength="2" style="width: 3em;" value=0 readonly /> hours
+<div id='miningCalcContainer' style="text-align:center">
+	<div id='miningCalcHeading' style="text-align:center">
+	<b>Mining Speed Calculator</b><br>
+	Time Warp: <input type="number" id="input-twMining" onkeyup="twMiningUpdate()" onchange="twMiningUpdate()" value=0 min="0" max="12" style="width: 2.75em;"/><br>
+	Hydro Amount: <input type="number" id="input-hAmount" onkeyup="hMiningUpdate()" onchange="hMiningUpdate()" value=0 min="0" max="9999" style="width: 3.75em;"/><br>
+	# of Asteroids: <input type="number" id="input-hCount" onkeyup="hCountUpdate()" onchange="hCountUpdate()" value=1 min="1" max="15" style="width: 2.75em;"/><br>
+	# of Miners: <input type="number" id="input-miningAllies" onkeyup="miningAlliesUpdate()" onchange="miningAlliesUpdate()" value=1 min="1" max="12" style="width: 2.75em;"/><br>
+	</div>
+	<div id='miningCalc' style="text-align:center">
+	<!--Miner Level: <input type="number" id="input-minerLevel" onkeyup="minerLevelUpdate()" onchange="minerLevelUpdate()" value=0 min="0" max="6" style="width: 2.75em;"/> Mining Boost: <input type="number" id="input-miningBoost" onkeyup="miningBoostUpdate()" onchange="miningBoostUpdate()" value=0 min="0" max="12" style="width: 2.75em;"/><br>Remote Mining: <input type="number" id="input-remoteMining" onkeyup="remoteMiningUpdate()" onchange="remoteMiningUpdate()" value=0 min="0" max="12" style="width: 2.75em;"/>Mining Unity: <input type="number" id="input-miningUnity" onkeyup="miningUnityUpdate()" onchange="miningUnityUpdate()" value=0 min="0" max="12" style="width: 2.75em;"/><br>-->
+	</div>
+	<div id='miningCalcFooter' style="text-align:center">
+	<b>Mining Results:</b><br>
+	Mining RS: <input type="text" id="output-hpmRSMining" maxlength="6" style="width: 4em;" value=0 readonly /> h2/m<br>
+	Mining WS: <input type="text" id="output-hpWSMining" maxlength="6" style="width: 4em;" value=0 readonly /> h2/h<br>
+	WS Mining Time: <input type="text" id="output-dayMining" maxlength="2" style="width: 3em;" value=0 readonly /> days <input type="text" id="output-hrMining" maxlength="2" style="width: 3em;" value=0 readonly /> hours
+	</div>
 </div>
 <div id='map' style='display: none'>
 <img id='origimg' style='display:none' src='' />
@@ -243,6 +254,9 @@ WS Mining Time: <input type="text" id="output-dayMining" maxlength="2" style="wi
 
 	infobox.addTo(map);
 	
+
+	
+
 	function bodyOnLoad()
 	{
 		miningAlliesUpdate();
@@ -513,6 +527,11 @@ WS Mining Time: <input type="text" id="output-dayMining" maxlength="2" style="wi
 		return Math.sqrt((d1*d1) + (d2*d2));
 	}
 	
+	function travelTime(distance)
+	{
+		
+	}
+
 	function secondsToHms(d) {
 		d = Number(d);
 		var h = Math.floor(d / 3600);
@@ -541,28 +560,28 @@ WS Mining Time: <input type="text" id="output-dayMining" maxlength="2" style="wi
         var bsImpulseSecondsCalc = 0;
         var tsImpulseSecondsCalc = 0;
         var msImpulseSecondsCalc = 0;
-        var dist = 0;
+        var totalDist = 0;
         var distBS = 0;
         var distTS = 0;
         var distMS = 0;
         for(var i=1;i<pts.length;++i)
         {
-            dist += distance(pts[i].lat,pts[i].lng,pts[i-1].lat,pts[i-1].lng);
+            totalDist += distance(pts[i].lat,pts[i].lng,pts[i-1].lat,pts[i-1].lng);
         }
         
         //scale according to calibration values
         var calibrationscale = calibrationMeasured/knowncalibrationdistance;
         
-        dist = dist * knownmultiplier / calibrationscale;
-        distBS = dist;
+        totalDist = totalDist * knownmultiplier / calibrationscale;
+        distBS = totalDist;
         if(weaponTPRangeCalc)
         {
-            distBS = dist - weaponsRange;
+            distBS = totalDist - weaponsRange;
         }
-        distTS = dist;
-        distMS = dist;
+        distTS = totalDist;
+        distMS = totalDist;
         
-        document.getElementById('info2').innerHTML = "Total Distance: "+dist.toFixed(1)+" AU<br><br>";
+        document.getElementById('info2').innerHTML = "Total Distance: "+totalDist.toFixed(1)+" AU<br><br>";
         
         if(!weaponTPRangeCalc)
         {
@@ -589,7 +608,7 @@ WS Mining Time: <input type="text" id="output-dayMining" maxlength="2" style="wi
         if(tplvl > 0)
         {
             document.getElementById('info2').innerHTML += "<b>TP ["+tplvl+"] </b>";
-            distBS = dist - tpDistance[tplvl];
+            distBS = totalDist - tpDistance[tplvl];
             if (distBS < 0)
             {
                 distBS = 0;
@@ -652,9 +671,9 @@ WS Mining Time: <input type="text" id="output-dayMining" maxlength="2" style="wi
             document.getElementById('info2').innerHTML += "Transport - "+secondsToHms(distTS/tsspeedCalc+tpTimeSecondsCalc+tsImpulseSecondsCalc)+"<br>";
             document.getElementById('info2').innerHTML += "Miner - "+secondsToHms(distMS/minerspeedCalc+tpTimeSecondsCalc+msImpulseSecondsCalc)+"<br>";
         }
-        document.getElementById('info2').innerHTML += "Alpha Rocket - "+secondsToHms(dist/alpharocketspeed)+"<br>";
-        document.getElementById('info2').innerHTML += "Delta Rocket - "+secondsToHms(dist/deltarocketspeed)+"<br>";
-        document.getElementById('info2').innerHTML += "Omega Rocket - "+secondsToHms(dist/omegarocketspeed)+"<br>";
+        document.getElementById('info2').innerHTML += "Alpha Rocket - "+secondsToHms(totalDist/alpharocketspeed)+"<br>";
+        document.getElementById('info2').innerHTML += "Delta Rocket - "+secondsToHms(totalDist/deltarocketspeed)+"<br>";
+        document.getElementById('info2').innerHTML += "Omega Rocket - "+secondsToHms(totalDist/omegarocketspeed)+"<br>";
                         
         popupShown = true;
     }
@@ -666,11 +685,34 @@ WS Mining Time: <input type="text" id="output-dayMining" maxlength="2" style="wi
 		document.getElementById('shieldCalcHeading').style.display = "none";
 		//document.getElementById('shieldCalcTW').style.display = "none";
 		document.getElementById('shieldCalc').style.display = "none";
-		document.getElementById('miningCalcHeading').style.display = "none";
-		document.getElementById('miningCalc').style.display = "none";
-		document.getElementById('miningCalcFooter').style.display = "none";
+		//document.getElementById('miningCalcHeading').style.display = "none";
+		//document.getElementById('miningCalc').style.display = "none";
+		//document.getElementById('miningCalcFooter').style.display = "none";
 		document.getElementById('info').innerHTML = "Step 2 (Calibration): Click on one corner at the edge of any sector. <a href='images/instruct1.png' target='_blank'>(Need Help?)</a>";
 	
+		//Move mining calc div into the map in a panel
+		var miningcalcbox = L.control();
+		miningcalcbox.setPosition('topleft')
+	
+		miningcalcbox.onAdd = function (map) {
+			this._div = L.DomUtil.create('div', 'miningcalcbox'); // create a div with a class "info"
+			this.update();
+			return this._div;
+		};
+
+		// method that we will use to update the control based on feature properties passed
+		miningcalcbox.update = function (props) {
+			var mb = document.querySelector('#miningCalcContainer');
+			L.DomEvent.on(mb, 'click', L.DomEvent.stopPropagation);
+			L.DomEvent.disableClickPropagation(mb);
+			L.DomEvent.on(mb, 'wheel', L.DomEvent.stopPropagation);
+			mb.classList.add('mininginfobox')
+			alert('!!!')
+			this._div.appendChild(mb)		
+		};
+
+		miningcalcbox.addTo(map);
+
 		var img = document.getElementById('origimg');
 		img.onload = function()
 		{
