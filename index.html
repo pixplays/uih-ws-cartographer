@@ -39,44 +39,100 @@
     <img id='logo' src="images/logos/UIH_Megacorp.svg" alt="UIH Megacorp Logo">
     <p class='bannerHeading'>United Industries of Hades</p>
   </div>
-  <p style="text-align:center" id='info'>Step 1: Load a screenshot of the white star</p>
-  <div style="text-align:center">
-    <button id='uploadbtn' class="button button1">Select White Star Screenshot or Ctrl-V to paste</button><!--<br><br>-->
+
+  <div id='instructions'>
+    <!-- <p id='info'>Step 1: Load a screenshot of the white star</p> -->
+    <button id='uploadbtn' class="button button1">Select White Star Screenshot or Ctrl-V to paste</button>
   </div>
-  <div id='shieldCalcHeading' style="text-align:center">
-    <b>Shield Duration Calculator</b><br>
+  <div id='generalCalcs'>
+    <div id='shieldCalcContainer'>
+      <div id='shieldCalcHeading'>
+        <p class='header'>Shield Duration Calculator</p>
+      </div>
+      <div id='shieldCalc'>
+        <table>
+          <tr>
+            <td>Time Warp Level:</td>
+            <td><input type="number" id="input-twShield" onkeyup="twShieldUpdate()" onchange="twShieldUpdate()" value=0 min="0" max="12"></td>
+          </tr>
+          <tr>
+            <td>WS Non-Warp Duration:</td>
+            <td><input type="number" id="input-nwday" onkeyup="wsShieldHrCalc()" onchange="wsShieldHrCalc()" value=0 min="0" max="2"></td>
+            <td>days</td>
+            <td><input type="number" id="input-nwhour" onkeyup="wsShieldHrCalc()" onchange="wsShieldHrCalc()" value=0 min="0"></td>
+            <td>hours</td>
+          </tr>
+          <tr>
+            <td>WS Time Warp Duration:</td>
+            <td><input type="number" id="input-day" onkeyup="wsShieldHrCalc()" onchange="wsShieldHrCalc()" value=0 min="0" max="2"></td>
+            <td>days</td>
+            <td><input type="number" id="input-hour" onkeyup="wsShieldHrCalc()" onchange="wsShieldHrCalc()" value=0 min="0"></td>
+            <td>hours</td>
+          </tr>
+          <tr>
+            <td>Yellow Star Shield Time:</td>
+            <td><input type="text" id="output-min" maxlength="2" value=0 readonly></td>
+            <td>mins</td>
+            <td><input type="text" id="output-sec" maxlength="2" value=0 readonly></td>
+            <td>sec</td>
+          </tr>
+        </table>
+      </div>
+    </div>
+    <div id='miningCalcContainer'>
+    	<div id='miningCalcHeading'>
+      	<p class='header'>Mining Speed Calculator</p>
+          <table>
+            <tr>
+              <td>Time Warp Level:</td>
+              <td><input type="number" id="input-twMining" onkeyup="twMiningUpdate()" onchange="twMiningUpdate()" value=0 min="0" max="12"></td>
+            </tr>
+            <tr>
+              <td>Hydro Amount:</td>
+              <td><input type="number" id="input-hAmount" onkeyup="hMiningUpdate()" onchange="hMiningUpdate()" value=0 min="0" max="9999"></td>
+            </tr>
+            <tr>
+              <td># of Asteroids:</td>
+              <td><input type="number" id="input-hCount" onkeyup="hCountUpdate()" onchange="hCountUpdate()" value=1 min="1" max="15"></td>
+            </tr>
+            <tr>
+              <td># of Miners:</td>
+              <td><input type="number" id="input-miningAllies" onkeyup="miningAlliesUpdate()" onchange="miningAlliesUpdate()" value=1 min="1" max="12"></td>
+            </tr>
+          </table>
+    	</div>
+    	<div id='miningCalc'>
+    	<!--
+      Miner Level: <input type="number" id="input-minerLevel" onkeyup="minerLevelUpdate()" onchange="minerLevelUpdate()" value=0 min="0" max="6" style="width: 2.75em;"/>
+      Mining Boost: <input type="number" id="input-miningBoost" onkeyup="miningBoostUpdate()" onchange="miningBoostUpdate()" value=0 min="0" max="12" style="width: 2.75em;"/><br>
+      Remote Mining: <input type="number" id="input-remoteMining" onkeyup="remoteMiningUpdate()" onchange="remoteMiningUpdate()" value=0 min="0" max="12" style="width: 2.75em;"/>
+      Mining Unity: <input type="number" id="input-miningUnity" onkeyup="miningUnityUpdate()" onchange="miningUnityUpdate()" value=0 min="0" max="12" style="width: 2.75em;"/><br>-->
+    	</div>
+    	<div id='miningCalcFooter'>
+      	<p class='header'>Mining Results:</p>
+      	<table>
+          <tr>
+            <td>Mining RS:</td>
+            <td><input type="text" id="output-hpmRSMining" maxlength="6" value=0 readonly></td>
+            <td>h / min</td>
+          </tr>
+          <tr>
+            <td>Mining WS:</td>
+            <td><input type="text" id="output-hpWSMining" maxlength="6" value=0 readonly></td>
+            <td>h / hour</td>
+          </tr>
+          <tr>
+            <td>WS Mining Time:</td>
+            <td><input type="text" id="output-dayMining" maxlength="2" value=0 readonly></td>
+            <td>days</td>
+            <td><input type="text" id="output-hrMining" maxlength="2" value=0 readonly></td>
+            <td>hours</td>
+          </tr>
+        </table>
+    	</div>
+    </div>
   </div>
-  <div id='shieldCalc' style="text-align:center">
-    Time Warp: <input type="number" id="input-twShield" onkeyup="twShieldUpdate()" onchange="twShieldUpdate()" value=0 min="0" max="12" style="width: 2.75em;"/><br>
-    WS Non-Warp Duration: <input type="number" id="input-nwday" onkeyup="wsShieldHrCalc()" onchange="wsShieldHrCalc()" value=0 min="0" max="2" style="width: 3em;"/>
-      days <input type="number" id="input-nwhour" onkeyup="wsShieldHrCalc()" onchange="wsShieldHrCalc()" value=0 min="0" style="width: 3em;" /> hours<br>
-    WS Time Warp Duration: <input type="number" id="input-day" onkeyup="wsShieldHrCalc()" onchange="wsShieldHrCalc()" value=0 min="0" max="2" style="width: 3em;"/>
-      days <input type="number" id="input-hour" onkeyup="wsShieldHrCalc()" onchange="wsShieldHrCalc()" value=0 min="0" style="width: 3em;" /> hours<br>
-    Yellow Star Shield Time: <input type="text" id="output-min" maxlength="2" style="width: 3em;" value=0 readonly /> mins <input type="text" id="output-sec" maxlength="2" style="width: 3em;" value=0 readonly /> sec
-  </div>
-  <div id='miningCalcContainer' style="text-align:center">
-  	<div id='miningCalcHeading' style="text-align:center">
-    	<b>Mining Speed Calculator</b><br>
-    	Time Warp: <input type="number" id="input-twMining" onkeyup="twMiningUpdate()" onchange="twMiningUpdate()" value=0 min="0" max="12" style="width: 2.75em;"/><br>
-    	Hydro Amount: <input type="number" id="input-hAmount" onkeyup="hMiningUpdate()" onchange="hMiningUpdate()" value=0 min="0" max="9999" style="width: 3.75em;"/><br>
-    	# of Asteroids: <input type="number" id="input-hCount" onkeyup="hCountUpdate()" onchange="hCountUpdate()" value=1 min="1" max="15" style="width: 2.75em;"/><br>
-    	# of Miners: <input type="number" id="input-miningAllies" onkeyup="miningAlliesUpdate()" onchange="miningAlliesUpdate()" value=1 min="1" max="12" style="width: 2.75em;"/><br>
-  	</div>
-  	<div id='miningCalc' style="text-align:center">
-  	<!--
-    Miner Level: <input type="number" id="input-minerLevel" onkeyup="minerLevelUpdate()" onchange="minerLevelUpdate()" value=0 min="0" max="6" style="width: 2.75em;"/>
-    Mining Boost: <input type="number" id="input-miningBoost" onkeyup="miningBoostUpdate()" onchange="miningBoostUpdate()" value=0 min="0" max="12" style="width: 2.75em;"/><br>
-    Remote Mining: <input type="number" id="input-remoteMining" onkeyup="remoteMiningUpdate()" onchange="remoteMiningUpdate()" value=0 min="0" max="12" style="width: 2.75em;"/>
-    Mining Unity: <input type="number" id="input-miningUnity" onkeyup="miningUnityUpdate()" onchange="miningUnityUpdate()" value=0 min="0" max="12" style="width: 2.75em;"/><br>-->
-  	</div>
-  	<div id='miningCalcFooter' style="text-align:center">
-    	<b>Mining Results:</b><br>
-    	Mining RS: <input type="text" id="output-hpmRSMining" maxlength="6" style="width: 4em;" value=0 readonly /> h2/m<br>
-    	Mining WS: <input type="text" id="output-hpWSMining" maxlength="6" style="width: 4em;" value=0 readonly /> h2/h<br>
-    	WS Mining Time: <input type="text" id="output-dayMining" maxlength="2" style="width: 3em;" value=0 readonly /> days <input type="text" id="output-hrMining" maxlength="2" style="width: 3em;" value=0 readonly /> hours
-  	</div>
-  </div>
-<div id='map' style='display: none'>
+<div id='map' style='display: none'></div>
 <img id='origimg' style='display:none' src='' />
 
 <script async src="https://www.googletagmanager.com/gtag/js?id=UA-118985442-3"></script>
@@ -235,32 +291,71 @@
         wsMiningHrCalc();
 		document.getElementById("miningCalc").innerHTML = "";
 
+    var table = document.createElement("table");
+    var miningTable = document.getElementById("miningCalc").appendChild(table);
+    miningTable.setAttribute("id", "miningTable");
+
 		for (i = 0; i < hMiningAllies + 1; i++) {
-			document.getElementById("miningCalc").innerHTML +=
-        "<b>Miner #" + (i+1) +
-        ":</b><br>Level #" + (i+1) +
-        ": <input type='number' id='input-minerLevel" + (i+1) +
-        "' onkeyup='minerLevelUpdate(" + (i+1) +
-        ")' onchange='minerLevelUpdate(" + (i+1) +
-        ")' value=" + hMiningLevel[(i+1)] +
-        " min='0' max='6' style='width: 2.75em;'/> Boost #" + (i+1) +
-        ": <input type='number' id='input-miningBoost" + (i+1) +
-        "' onkeyup='miningBoostUpdate(" + (i+1) +
-        ")' onchange='miningBoostUpdate(" + (i+1) +
-        ")' value=" + hMiningBoost[(i+1)] +
-        " min='0' max='12' style='width: 2.75em;'/><br>Remote #" + (i+1) +
-        ": <input type='number' id='input-remoteMining" + (i+1) +
-        "' onkeyup='remoteMiningUpdate(" + (i+1) +
-        ")' onchange='remoteMiningUpdate(" + (i+1) +
-        ")' value=" + hMiningRemote[(i+1)] +
-        " min='0' max='12' style='width: 2.75em;'/> Unity #" + (i+1) +
-        ": <input type='number' id='input-miningUnity" + (i+1) +
-        "' onkeyup='miningUnityUpdate(" + (i+1) +
-        ")' onchange='miningUnityUpdate(" + (i+1) +
-        ")' value=" + hMiningUnity[(i+1)] +
-        " min='0' max='12' style='width: 2.75em;'/><br>";
+      var row = miningTable.insertRow(i);
+      var cell1 = row.insertCell(0);
+      var cell2 = row.insertCell(1);
+      var cell3 = row.insertCell(2);
+      var cell4 = row.insertCell(3);
+      var cell5 = row.insertCell(4);
+      var cell6 = row.insertCell(5);
+      var cell7 = row.insertCell(6);
+      var cell8 = row.insertCell(7);
+      var cell9 = row.insertCell(8);
+      var minerIndex = i+1;
+
+      var inputMinerLevel = document.createElement("input");
+      inputMinerLevel.type = "number";
+      inputMinerLevel.setAttribute("id", "input-minerLevel" + minerIndex);
+      inputMinerLevel.setAttribute("onkeyup", "minerLevelUpdate(" + minerIndex + ")");
+      inputMinerLevel.setAttribute("onchange", "minerLevelUpdate(" + minerIndex + ")");
+      inputMinerLevel.value = hMiningLevel[minerIndex];
+      inputMinerLevel.min = "0";
+      inputMinerLevel.max = "6";
+
+      var inputBoostLevel = document.createElement("input");
+      inputBoostLevel.type = "number";
+      inputBoostLevel.setAttribute("id", "input-miningBoost" + minerIndex);
+      inputBoostLevel.setAttribute("onkeyup", "miningBoostUpdate(" + minerIndex + ")");
+      inputBoostLevel.setAttribute("onchange", "miningBoostUpdate(" + minerIndex + ")");
+      inputBoostLevel.value = hMiningBoost[minerIndex];
+      inputBoostLevel.min = "0";
+      inputBoostLevel.max = "12";
+
+      var inputRemoteLevel = document.createElement("input");
+      inputRemoteLevel.type = "number";
+      inputRemoteLevel.setAttribute("id", "input-remoteMining" + minerIndex);
+      inputRemoteLevel.setAttribute("onkeyup", "remoteMiningUpdate(" + minerIndex + ")");
+      inputRemoteLevel.setAttribute("onchange", "remoteMiningUpdate(" + minerIndex + ")");
+      inputRemoteLevel.value = hMiningRemote[minerIndex];
+      inputRemoteLevel.min = "0";
+      inputRemoteLevel.max = "12";
+
+      var inputUnityLevel = document.createElement("input");
+      inputUnityLevel.type = "number";
+      inputUnityLevel.setAttribute("id", "input-miningUnity" + minerIndex);
+      inputUnityLevel.setAttribute("onkeyup", "miningUnityUpdate(" + minerIndex + ")");
+      inputUnityLevel.setAttribute("onchange", "miningUnityUpdate(" + minerIndex + ")");
+      inputUnityLevel.value = hMiningUnity[minerIndex];
+      inputUnityLevel.min = "0";
+      inputUnityLevel.max = "12";
+
+      cell1.innerHTML = "Miner #" + minerIndex;
+      cell2.innerHTML = "Level";
+      cell3.appendChild(inputMinerLevel);
+      cell4.innerHTML = "Boost";
+      cell5.appendChild(inputBoostLevel);
+      cell6.innerHTML = "Remote";
+      cell7.appendChild(inputRemoteLevel);
+      cell8.innerHTML = "Unity";
+      cell9.appendChild(inputUnityLevel);
+
 		}
-    }
+  }
 
 	function minerLevelUpdate(input)
     {
@@ -631,9 +726,10 @@
     document.getElementById('banner').style.display = "none";
 		document.getElementById('map').style.display = "";
 		document.getElementById('uploadbtn').style.display = "none";
-		document.getElementById('shieldCalcHeading').style.display = "none";
+    document.getElementById('generalCalcs').style.display = "none";
+    //document.getElementById('shieldCalcContainer').style.display = "none";
 		//document.getElementById('shieldCalcTW').style.display = "none";
-		document.getElementById('shieldCalc').style.display = "none";
+		//document.getElementById('shieldCalc').style.display = "none";
 		//document.getElementById('miningCalcHeading').style.display = "none";
 		//document.getElementById('miningCalc').style.display = "none";
 		//document.getElementById('miningCalcFooter').style.display = "none";

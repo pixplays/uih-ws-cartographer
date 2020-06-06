@@ -1,11 +1,7 @@
+/* ------------------------------ */
 /* Stylesheet for WS cartographer */
+/* ------------------------------ */
 
-body {
-  padding: 0;
-  margin: 0;
-  background-color: #1a1a1a;
-  color: white;
-}
 html, body {
   height: 100%;
   //width: 100vw;
@@ -13,7 +9,17 @@ html, body {
   color: white;
 }
 
-/* Banner header - logo + text */
+body {
+  padding: 0;
+  margin: 0;
+  font-size: 12px;
+}
+
+
+/* ------------------------------ */
+/* Banner header - logo + text -- */
+/* ------------------------------ */
+
 #banner {
   margin-top: 20px;
   margin-bottom: 20px;
@@ -27,9 +33,66 @@ html, body {
   padding: 10px;
 }
 .bannerHeading {
-    text-transform: uppercase;
-    font-weight: bold;
+  text-transform: uppercase;
+  font-weight: bold;
 }
+
+
+/* ------------------------------ */
+/* Instructions on first page --- */
+/* ------------------------------ */
+
+#instructions {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+
+/* ------------------------------ */
+/* General Calcs on 1st Page ---- */
+/* ------------------------------ */
+
+#generalCalcs {
+  text-align: center;
+}
+#generalCalcs table {
+  margin: 0 auto;
+  text-align: left;
+}
+#generalCalcs td {
+  padding-left: 4px;
+  padding-right: 4px;
+}
+#generalCalcs input {
+  width: 30px;
+}
+#miningCalcFooter {
+  margin-top: 20px;
+}
+#miningCalcFooter input {
+  width: 50px;
+}
+#shieldCalcContainer, #miningCalcContainer {
+  margin-bottom: 20px;
+}
+table #miningTable {
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+
+/* ------------------------------ */
+/* General text formatting ------ */
+/* ------------------------------ */
+
+p.header {
+  font-weight: bold;
+}
+p.center {
+  text-align: center;
+}
+
+
 
 #map {
   height: 100%;
@@ -56,10 +119,9 @@ a:hover {
 a:active {
   color: white;
 }
-#map
-{
+#map{
   height: 80%;
-};
+}
 
 
 .button {
@@ -70,7 +132,7 @@ a:active {
   text-align: center;
   text-decoration: none;
   display: inline-block;
-  font-size: 14px;
+  font-size: 12px;
   margin: 4px 2px;
   -webkit-transition-duration: 0.4s; /* Safari */
   transition-duration: 0.4s;
@@ -89,7 +151,7 @@ a:active {
 
 .infobox {
   padding: 6px 8px;
-  font: 14px/16px Arial, Helvetica, sans-serif;
+  font: 12px/14px Arial, Helvetica, sans-serif;
   background: white;
   background: rgba(255,255,255,0.8);
   box-shadow: 0 0 15px rgba(0,0,0,0.2);
@@ -102,7 +164,7 @@ a:active {
 
 .mininginfobox {
   padding: 6px 8px;
-  font: 14px/16px Arial, Helvetica, sans-serif;
+  font: 12px/14px Arial, Helvetica, sans-serif;
   color: white;
   background: rgba(25,25,25,0.8);
   box-shadow: 0 0 15px rgba(255,255,255,0.2);
