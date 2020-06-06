@@ -1,4 +1,4 @@
-<!--
+1<!--
   White Star Cartographer Tool for United Industries of Hades (UIH)
   Created by Concedo
   Updated by Elder Things Corp
@@ -149,7 +149,7 @@
 	var hMiningAmount = 0;
 	var hMiningAllies = 0;
 	var hMiningCount = 1;
-	var hMiningLevel = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
+	var hMiningLevel = [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1];
 	var hMiningBoost = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
 	var hMiningRemote = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
 	var hMiningUnity = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
@@ -165,9 +165,9 @@
 	var ysShieldMaxDurationMinute = 5;
   var weaponTPRangeCalc = false;
 	var minerLevelhpm = [0, 6, 7.5, 12, 24, 60, 80];
-	var miningBoostMultiplier = [0, 2, 2.5, 3, 3.5, 4, 4.5, 5, 6, 7, 8];
-	var remoteMiningMultipler = [0, 0.36, 0.4, 0.45, 0.51, 0.57, 0.64, 0.72, 0.81, 0.9, 1]
-	var miningUnityMultiplier = [0, 0.25, 0.29, 0.34, 0.39, 0.45, 0.52, 0.61, 0.71, 0.83, 1]
+	var miningBoostMultiplier = [1, 2, 2.5, 3, 3.5, 4, 4.5, 5, 6, 7, 8];
+	var remoteMiningMultipler = [1, 0.36, 0.4, 0.45, 0.51, 0.57, 0.64, 0.72, 0.81, 0.9, 1]
+	var miningUnityMultiplier = [1, 0.25, 0.29, 0.34, 0.39, 0.45, 0.52, 0.61, 0.71, 0.83, 1]
 
   //weapons range for battleships
   var weaponsRange = 120;
@@ -314,7 +314,7 @@
       inputMinerLevel.setAttribute("onkeyup", "minerLevelUpdate(" + minerIndex + ")");
       inputMinerLevel.setAttribute("onchange", "minerLevelUpdate(" + minerIndex + ")");
       inputMinerLevel.value = hMiningLevel[minerIndex];
-      inputMinerLevel.min = "0";
+      inputMinerLevel.min = "1";
       inputMinerLevel.max = "6";
 
       var inputBoostLevel = document.createElement("input");

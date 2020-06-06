@@ -14,6 +14,9 @@ body {
   margin: 0;
   font-size: 12px;
 }
+table {
+  font-size: 12px;
+}
 
 
 /* ------------------------------ */
@@ -30,7 +33,7 @@ body {
   width: 80px;
   height: 80px;
   margin: 0 auto;
-  padding: 10px;
+  padding: 12px;
 }
 .bannerHeading {
   text-transform: uppercase;
@@ -151,7 +154,7 @@ a:active {
 
 .infobox {
   padding: 6px 8px;
-  font: 12px/14px Arial, Helvetica, sans-serif;
+  font: 12px Arial, Helvetica, sans-serif;
   background: white;
   background: rgba(255,255,255,0.8);
   box-shadow: 0 0 15px rgba(0,0,0,0.2);
@@ -164,7 +167,7 @@ a:active {
 
 .mininginfobox {
   padding: 6px 8px;
-  font: 12px/14px Arial, Helvetica, sans-serif;
+  font: 12px Arial, Helvetica, sans-serif;
   color: white;
   background: rgba(25,25,25,0.8);
   box-shadow: 0 0 15px rgba(255,255,255,0.2);
