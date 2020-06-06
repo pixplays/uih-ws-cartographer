@@ -1,0 +1,91 @@
+/* Stylesheet for WS cartographer */
+
+body {
+  padding: 0;
+  margin: 0;
+  background-color: #1a1a1a;
+  color: white;
+}
+html, body {
+  height: 100%;
+  //width: 100vw;
+  background-color: #1a1a1a;
+  color: white;
+}
+#map {
+  height: 100%;
+  //width: 100vw;
+  background-color: #1a1a1a;
+  color: black;
+}
+/* unvisited link */
+a:link {
+  color: springgreen;
+}
+
+/* visited link */
+a:visited {
+  color: springgreen;
+}
+
+/* mouse over link */
+a:hover {
+  color: white;
+}
+
+/* selected link */
+a:active {
+  color: white;
+}
+#map
+{
+  height: 80%;
+};
+
+
+.button {
+  background-color: #4CAF50; /* Green */
+  border: none;
+  color: gray;
+  padding: 8px 16px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 14px;
+  margin: 4px 2px;
+  -webkit-transition-duration: 0.4s; /* Safari */
+  transition-duration: 0.4s;
+  cursor: pointer;
+}
+.button1 {
+  background-color: gray;
+  color: white;
+  border: 2px solid #4CAF50;
+}
+
+.button1:hover {
+  background-color: #4CAF50;
+  color: white;
+}
+
+.infobox {
+  padding: 6px 8px;
+  font: 14px/16px Arial, Helvetica, sans-serif;
+  background: white;
+  background: rgba(255,255,255,0.8);
+  box-shadow: 0 0 15px rgba(0,0,0,0.2);
+  border-radius: 5px;
+}
+.infobox h4 {
+  margin: 0 0 5px;
+  color: #777;
+}
+
+.mininginfobox {
+  padding: 6px 8px;
+  font: 14px/16px Arial, Helvetica, sans-serif;
+  color: white;
+  background: rgba(25,25,25,0.8);
+  box-shadow: 0 0 15px rgba(255,255,255,0.2);
+  border-radius: 5px;
+}
