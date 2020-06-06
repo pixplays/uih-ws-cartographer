@@ -57,6 +57,7 @@ table {
 
 #generalCalcs {
   text-align: center;
+  margin-top: 20px;
 }
 #generalCalcs table {
   margin: 0 auto;
@@ -73,7 +74,7 @@ table {
   margin-top: 20px;
 }
 #miningCalcFooter input {
-  width: 50px;
+  width: 50px!important;
 }
 #shieldCalcContainer, #miningCalcContainer {
   margin-bottom: 20px;
@@ -83,6 +84,16 @@ table #miningTable {
   margin-bottom: 10px;
 }
 
+
+/* ------------------------------ */
+/* Map Overlays Formatting ------ */
+/* ------------------------------ */
+
+/*
+#miningCalcContainer input {
+  width: 30px;
+}
+*/
 
 /* ------------------------------ */
 /* General text formatting ------ */

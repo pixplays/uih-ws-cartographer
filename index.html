@@ -44,6 +44,9 @@
     <p id='info'></p>
     <button id='uploadbtn' class="button button1">Select White Star Screenshot or Ctrl-V to paste</button>
   </div>
+  <div id='map' style='display: none'>
+    <img id='origimg' style='display:none' src='' />
+  </div>
   <div id='generalCalcs'>
     <div id='shieldCalcContainer'>
       <div id='shieldCalcHeading'>
@@ -132,8 +135,6 @@
     	</div>
     </div>
   </div>
-<div id='map' style='display: none'></div>
-<img id='origimg' style='display:none' src='' />
 
 <script>
   var tplvl = 0;
@@ -724,7 +725,7 @@
     document.getElementById('banner').style.display = "none";
 		document.getElementById('map').style.display = "";
 		document.getElementById('uploadbtn').style.display = "none";
-    document.getElementById('generalCalcs').style.display = "none";
+    //document.getElementById('generalCalcs').style.display = "none";
     //document.getElementById('shieldCalcContainer').style.display = "none";
 		//document.getElementById('shieldCalcTW').style.display = "none";
 		//document.getElementById('shieldCalc').style.display = "none";
@@ -732,6 +733,8 @@
 		//document.getElementById('miningCalc').style.display = "none";
 		//document.getElementById('miningCalcFooter').style.display = "none";
 		document.getElementById('info').innerHTML = "Step 2 (Calibration): Click on one corner at the edge of any sector. <a href='images/instruct1.png' target='_blank'>(Need Help?)</a>";
+
+/*
 
 		//Move mining calc div into the map in a panel
 		var miningcalcbox = L.control();
@@ -744,18 +747,19 @@
 		};
 
 		// method that we will use to update the control based on feature properties passed
-		miningcalcbox.update = function (props) {
+    miningcalcbox.update = function (props) {
 			var mb = document.querySelector('#miningCalcContainer');
 			L.DomEvent.on(mb, 'click', L.DomEvent.stopPropagation);
 			L.DomEvent.disableClickPropagation(mb);
 			L.DomEvent.on(mb, 'wheel', L.DomEvent.stopPropagation);
 			mb.classList.add('mininginfobox')
-			alert('!!!')
+			//alert('!!!')
 			this._div.appendChild(mb)
 		};
 
 		miningcalcbox.addTo(map);
 
+*/
 		var img = document.getElementById('origimg');
 		img.onload = function()
 		{
