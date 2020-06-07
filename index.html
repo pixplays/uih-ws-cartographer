@@ -312,12 +312,16 @@
 		{
 			hMiningAllies = 0;
 		}
+		if (hMiningAllies > 12) {
+			hMiningAllies = 12;
+		}
         wsMiningHrCalc();
 		document.getElementById("miningCalc").innerHTML = "";
 
     var table = document.createElement("table");
     var miningTable = document.getElementById("miningCalc").appendChild(table);
     miningTable.setAttribute("id", "miningTable");
+
 
 		for (i = 0; i < hMiningAllies + 1; i++) {
       var row = miningTable.insertRow(i);
