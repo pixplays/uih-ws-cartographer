@@ -67,7 +67,7 @@ table {
   padding-right: 4px;
 }
 #generalCalcs input {
-  width: 30px;
+  width: 50px; /*was originally 30px */
 }
 #miningCalcFooter {
   margin-top: 20px;
