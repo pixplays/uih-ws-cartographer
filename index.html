@@ -68,6 +68,8 @@ UIH takes no responsibility for the loss of your miners, transports or battleshi
 	<div id='instructions'>
 		<p id='info'></p>
 		<button id='uploadbtn' class="button button1">Select White Star Screenshot or Ctrl-V to paste</button>
+		<input type="text" id="imgurl"/ placeholder="https://media.discordapp.net/attachments/...">
+
 	</div>
 	<div id='map' style='display: none'>
 		<img id='origimg' style='display:none' src='' />
@@ -226,9 +228,52 @@ UIH takes no responsibility for the loss of your miners, transports or battleshi
 		var deltarocketspeed = 150/3600;
 		var omegarocketspeed = 60/3600;
 
+		const p1setInfoHtml = "Step 3 (Calibration): Now click on the corner directly opposite to the first corner in the same sector. <a href='images/instruct2.png' target='_blank'>(Need Help?)</a>"
+		const p2setInfoHtml = 
+			"Each sector should be 500AU diagonally.<br>" +
+			"Tap map to add waypoints to measure.<br>" +
+			"<a href='#' onclick=ResetPoints()>Click HERE to Reset Waypoints.</a><br>"+
+			"TW: <input type='number' id='input-tw' onkeyup='twUpdate()' onchange='twUpdate()' value=0 min='0' max='12' style='width: 2.75em;'/>" +
+			"Delta: <input type='number' id='input-delta' onkeyup='deltaUpdate()' onchange='deltaUpdate()' value=0 min='0' max='12' style='width: 2.75em;'/>" +
+			"TP: <input type='number' id='input-tp' onkeyup='tpUpdate()' onchange='tpUpdate()' value=0 min='0' max='12' style='width: 2.75em;'/>" +
+			"Impulse: <input type='number' id='input-impulse' onkeyup='impulseUpdate()' onchange='impulseUpdate()' value=0 min='0' max='12' style='width: 2.75em;'/><br>" +
+			"<input type='checkbox' id='weapon-tp-range-checkbox' value='Value1' onclick='weaponTPRange()' onchange='weaponTPRange()' />" +
+			"Weapons / TP Range"
+			//<br><a href='#' onclick=timewarpLevel()>Time Warp [0].</a> <a href='#' onclick=deltaLevel()>Delta [0].</a> <a href='#' onclick=teleportLevel()>Teleport [0].</a> <a href='#' onclick=impulseLevel()>Impulse [0].</a>
+
+
+		var state = {
+			imgUrl: '',
+			calibrationMeasured: 0,
+			pts: [],
+			update: function(identifier, value){
+				this[identifier] = value;
+				this.export();
+			},
+			export: function(){
+				document.location.hash = '#' + btoa(JSON.stringify({
+					imgUrl: this.imgUrl,
+					calibrationMeasured: this.calibrationMeasured,
+					pts: this.pts
+				}))
+			},
+			import: function(){
+				try {
+					var payload = JSON.parse(atob(document.location.hash.slice(1)));
+					this.imgUrl = payload.imgUrl;
+					this.calibrationMeasured = payload.calibrationMeasured;
+					this.pts = payload.pts;
+				} catch (e) {
+					console.log('unable to parse url data')
+				}
+				return this;
+			}
+		}
+
 		var ResetPoints = function()
 		{
 			pts = [];
+			state.update('pts', pts);
 			document.getElementById('info2').innerHTML = "";
 			for(var i = 0; i < lines.length; i++){
 				map.removeLayer(lines[i]);
@@ -249,7 +294,7 @@ UIH takes no responsibility for the loss of your miners, transports or battleshi
 		var p2 = xy(-1, -1);
 		var p1set = false;
 		var p2set = false;
-		var pts = [];
+		var pts = state.import().pts || [];
 		var lines = [];
 		var map = L.map('map', {
 			crs: L.CRS.Simple,
@@ -258,7 +303,7 @@ UIH takes no responsibility for the loss of your miners, transports or battleshi
 
 		var knownmultiplier = 4.348; //value empirically determined to get 500AU across one ws sector's long diagonal
 		var knowncalibrationdistance = 500; //known calibration distance is 500AU per sector diagonal. it's short but its easy to perform
-		var calibrationMeasured = 0; //to compare ratio to our measurements
+		var calibrationMeasured = state.import().calibrationMeasured || 0; //to compare ratio to our measurements
 
 		var imgloaded = false;
 
@@ -770,7 +815,8 @@ UIH takes no responsibility for the loss of your miners, transports or battleshi
 
 			popupShown = true;
 		}
-
+		
+		var popup = L.popup();
 		function processImage()
 		{
 			document.getElementById('banner').style.display = "none";
@@ -811,16 +857,18 @@ UIH takes no responsibility for the loss of your miners, transports or battleshi
 	miningcalcbox.addTo(map);
 
 	*/
+
 	var img = document.getElementById('origimg');
 	img.onload = function()
 	{
+		console.log('loaded: '+document.getElementById('origimg').src)
 		imgloaded = true;
 		var bounds = [xy(0, 0), xy(img.width, img.height)];
+		
 		var image = L.imageOverlay(document.getElementById('origimg').src, bounds).addTo(map);
 
-		var popup = L.popup();
 		function onMapClick(e) {
-			if(!p1set)
+			if(!p1set && !state.calibrationMeasured)
 			{
 				p1set = true;
 				p1 = e.latlng;
@@ -829,31 +877,23 @@ UIH takes no responsibility for the loss of your miners, transports or battleshi
 				.setContent("Calibration Point 1 Set")
 				.openOn(map);
 
-				document.getElementById('info').innerHTML = "Step 3 (Calibration): Now click on the corner directly opposite to the first corner in the same sector. <a href='images/instruct2.png' target='_blank'>(Need Help?)</a>";
+				document.getElementById('info').innerHTML = p1setInfoHtml;
 			}
-			else if(!p2set)
+			else if(!p2set && !state.calibrationMeasured)
 			{
 				p2set = true;
 				p2 = e.latlng;
 
 				calibrationMeasured = distance(p1.lat,p1.lng,p2.lat,p2.lng) * knownmultiplier;
+				state.update('calibrationMeasured', calibrationMeasured);
 
 				popup
 				.setLatLng(e.latlng)
 				.setContent("Calibration Point 2 Set")
 				.openOn(map);
 
-				document.getElementById('info').innerHTML =
-				"Each sector should be 500AU diagonally.<br>" +
-				"Tap map to add waypoints to measure.<br>" +
-				"<a href='#' onclick=ResetPoints()>Click HERE to Reset Waypoints.</a><br>"+
-				"TW: <input type='number' id='input-tw' onkeyup='twUpdate()' onchange='twUpdate()' value=0 min='0' max='12' style='width: 2.75em;'/>" +
-				"Delta: <input type='number' id='input-delta' onkeyup='deltaUpdate()' onchange='deltaUpdate()' value=0 min='0' max='12' style='width: 2.75em;'/>" +
-				"TP: <input type='number' id='input-tp' onkeyup='tpUpdate()' onchange='tpUpdate()' value=0 min='0' max='12' style='width: 2.75em;'/>" +
-				"Impulse: <input type='number' id='input-impulse' onkeyup='impulseUpdate()' onchange='impulseUpdate()' value=0 min='0' max='12' style='width: 2.75em;'/><br>" +
-				"<input type='checkbox' id='weapon-tp-range-checkbox' value='Value1' onclick='weaponTPRange()' onchange='weaponTPRange()' />" +
-				"Weapons / TP Range";
-				//<br><a href='#' onclick=timewarpLevel()>Time Warp [0].</a> <a href='#' onclick=deltaLevel()>Delta [0].</a> <a href='#' onclick=teleportLevel()>Teleport [0].</a> <a href='#' onclick=impulseLevel()>Impulse [0].</a>
+				document.getElementById('info').innerHTML = p2setInfoHtml;
+				
 			}
 			else
 			{
@@ -864,6 +904,7 @@ UIH takes no responsibility for the loss of your miners, transports or battleshi
 					lines.push(travel);
 				}
 				pts.push(e.latlng);
+				state.update('pts', pts);
 
 				popup
 				.setLatLng(e.latlng)
@@ -881,7 +922,42 @@ UIH takes no responsibility for the loss of your miners, transports or battleshi
 	}
 };
 
+
 showUpload();
+
+
+document.getElementById('imgurl').addEventListener('change', function(){
+	// reset: remove any existing layer
+	map.eachLayer((l)=>{map.removeLayer(l)})
+	var imgUrl = document.getElementById('imgurl').value;
+	state.update('imgUrl',imgUrl);
+	document.getElementById('origimg').src = imgUrl;
+	console.log('loading '+imgUrl+'...')
+	processImage();
+})
+if (state.imgUrl){
+	document.getElementById('origimg').src = state.imgUrl;
+	console.log('loading '+state.imgUrl+'...')
+	processImage();
+	if (state.pts && state.pts.length>0){
+		for (var i = 1; i < state.pts.length; i++)
+		{
+			var travel = L.polyline([state.pts[i-1], state.pts[i]]).addTo(map);
+			lines.push(travel);
+		}
+		popup
+		.setLatLng(state.pts[state.pts.length-1])
+		.setContent("Waypoint " + state.pts.length)
+		.openOn(map);
+
+		updateMapPopup(1);
+
+		document.getElementById('info').innerHTML = p2setInfoHtml;
+
+	}
+				
+}
+	
 
 </script>
 
